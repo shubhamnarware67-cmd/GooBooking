@@ -1,0 +1,2402 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GooBooking – Book Movies, Events & More</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --red: #e8001d;
+      --red2: #ff2244;
+      --dark: #0a0a0f;
+      --dark2: #13131a;
+      --dark3: #1c1c28;
+      --card: #1a1a24;
+      --border: rgba(255, 255, 255, 0.08);
+      --text: #f0f0f5;
+      --muted: #888899;
+      --gold: #ffd166;
+      --teal: #06d6a0;
+      --font-head: 'Syne', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--dark);
+      color: var(--text);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--dark2);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--red);
+      border-radius: 10px;
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(10, 10, 15, 0.92);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 5vw;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+
+    .logo {
+      font-family: var(--font-head);
+      font-size: 1.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #e8001d, #ff7c5c);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.5px;
+      cursor: pointer;
+    }
+
+    .logo span {
+      -webkit-text-fill-color: var(--gold);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+      cursor: pointer;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .nav-right {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .city-btn {
+      color: var(--muted);
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: color 0.2s;
+    }
+
+    .city-btn:hover {
+      color: var(--text);
+    }
+
+    .city-btn::before {
+      content: '📍';
+      font-size: 0.8rem;
+    }
+
+    .btn-signin {
+      background: transparent;
+      border: 1.5px solid var(--red);
+      color: var(--red);
+      padding: 7px 18px;
+      border-radius: 6px;
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-signin:hover {
+      background: var(--red);
+      color: #fff;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(180deg, #0f0a1a 0%, var(--dark) 100%);
+      padding: 0;
+    }
+
+    .hero-slides {
+      display: flex;
+      transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+    }
+
+    .hero-slide {
+      min-width: 100%;
+      height: 480px;
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      padding: 48px 8vw;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .hero-slide::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(10, 10, 15, 0.95) 35%, rgba(10, 10, 15, 0.3) 100%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 520px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: var(--red);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: 3px 10px;
+      border-radius: 4px;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+    }
+
+    .hero-title {
+      font-family: var(--font-head);
+      font-size: 2.8rem;
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 10px;
+    }
+
+    .hero-meta {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 22px;
+    }
+
+    .hero-meta span {
+      color: var(--gold);
+    }
+
+    .btn-book {
+      background: linear-gradient(135deg, var(--red), #c0001a);
+      color: #fff;
+      border: none;
+      padding: 13px 32px;
+      border-radius: 8px;
+      font-family: var(--font-head);
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px rgba(232, 0, 29, 0.4);
+    }
+
+    .btn-book:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(232, 0, 29, 0.5);
+    }
+
+    .hero-dots {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      z-index: 10;
+    }
+
+    .hero-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .hero-dot.active {
+      width: 24px;
+      background: var(--red);
+    }
+
+    .hero-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: #fff;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-arrow:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .hero-prev {
+      left: 20px;
+    }
+
+    .hero-next {
+      right: 20px;
+    }
+
+    /* ── SEARCH BAR ── */
+    .search-wrap {
+      background: var(--dark2);
+      padding: 20px 8vw;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .search-bar {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      background: var(--dark3);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 6px 6px 6px 18px;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .search-bar input {
+      flex: 1;
+      background: none;
+      border: none;
+      outline: none;
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      padding: 8px 0;
+    }
+
+    .search-bar input::placeholder {
+      color: var(--muted);
+    }
+
+    .btn-search {
+      background: var(--red);
+      color: #fff;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.2s;
+    }
+
+    .btn-search:hover {
+      background: var(--red2);
+    }
+
+    /* ── CATEGORY TABS ── */
+    .cat-tabs {
+      padding: 24px 8vw 0;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .cat-tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .cat-tab {
+      background: var(--dark3);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 9px 20px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .cat-tab:hover {
+      border-color: rgba(255, 255, 255, 0.2);
+      color: var(--text);
+    }
+
+    .cat-tab.active {
+      background: var(--red);
+      border-color: var(--red);
+      color: #fff;
+      font-weight: 600;
+    }
+
+    /* ── SECTION ── */
+    section {
+      padding: 40px 8vw;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .section-title {
+      font-family: var(--font-head);
+      font-size: 1.4rem;
+      font-weight: 700;
+    }
+
+    .section-title span {
+      color: var(--red);
+    }
+
+    .see-all {
+      color: var(--red);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .see-all:hover {
+      text-decoration: underline;
+    }
+
+    /* ── MOVIE CARDS ── */
+    .movies-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 20px;
+    }
+
+    .movie-card {
+      background: var(--card);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      transition: transform 0.25s, box-shadow 0.25s;
+      cursor: pointer;
+    }
+
+    .movie-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .movie-poster {
+      width: 100%;
+      aspect-ratio: 2/3;
+      object-fit: cover;
+      display: block;
+      background: var(--dark3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .poster-placeholder {
+      width: 100%;
+      aspect-ratio: 2/3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      background: linear-gradient(135deg, var(--dark3), var(--dark2));
+    }
+
+    .movie-card-body {
+      padding: 12px;
+    }
+
+    .movie-name {
+      font-family: var(--font-head);
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .movie-genres {
+      color: var(--muted);
+      font-size: 0.75rem;
+      margin-bottom: 8px;
+    }
+
+    .movie-rating {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--gold);
+    }
+
+    .movie-rating::before {
+      content: '★';
+    }
+
+    .movie-lang {
+      display: inline-block;
+      background: var(--dark3);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    .movie-card .book-now-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(0deg, rgba(232, 0, 29, 0.95) 0%, transparent 100%);
+      padding: 20px 12px 12px;
+      opacity: 0;
+      transition: opacity 0.25s;
+      display: flex;
+      align-items: flex-end;
+    }
+
+    .movie-poster-wrap {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .movie-card:hover .book-now-overlay {
+      opacity: 1;
+    }
+
+    .book-now-txt {
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.85rem;
+      font-family: var(--font-head);
+    }
+
+    /* ── PREMIERE / BANNER CARDS ── */
+    .premiere-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .premiere-card {
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      aspect-ratio: 16/7;
+      border: 1px solid var(--border);
+      transition: transform 0.25s;
+    }
+
+    .premiere-card:hover {
+      transform: scale(1.02);
+    }
+
+    .premiere-card-bg {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+    }
+
+    .premiere-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(10, 10, 15, 0.85), rgba(10, 10, 15, 0.3));
+    }
+
+    .premiere-info {
+      position: absolute;
+      bottom: 16px;
+      left: 16px;
+      z-index: 2;
+    }
+
+    .premiere-info h4 {
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .premiere-info p {
+      color: var(--muted);
+      font-size: 0.8rem;
+      margin-top: 2px;
+    }
+
+    /* ── EVENTS HORIZONTAL SCROLL ── */
+    .events-scroll {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+
+    .events-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .event-card {
+      min-width: 220px;
+      background: var(--card);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      flex-shrink: 0;
+    }
+
+    .event-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .event-img {
+      width: 100%;
+      height: 130px;
+      object-fit: cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      background: linear-gradient(135deg, #1a1040, #2d0a2a);
+    }
+
+    .event-body {
+      padding: 12px;
+    }
+
+    .event-name {
+      font-family: var(--font-head);
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .event-date {
+      color: var(--teal);
+      font-size: 0.78rem;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .event-venue {
+      color: var(--muted);
+      font-size: 0.75rem;
+    }
+
+    .event-price {
+      color: var(--gold);
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-top: 8px;
+    }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal {
+      background: var(--dark2);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      max-width: 900px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      transform: translateY(30px);
+      transition: transform 0.3s;
+    }
+
+    .modal-overlay.open .modal {
+      transform: translateY(0);
+    }
+
+    .modal-header {
+      display: flex;
+      gap: 24px;
+      padding: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-poster {
+      width: 120px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      background: var(--dark3);
+      flex-shrink: 0;
+    }
+
+    .modal-info {
+      flex: 1;
+    }
+
+    .modal-title {
+      font-family: var(--font-head);
+      font-size: 1.6rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .modal-meta {
+      color: var(--muted);
+      font-size: 0.85rem;
+      line-height: 1.8;
+    }
+
+    .modal-meta strong {
+      color: var(--text);
+    }
+
+    .modal-close {
+      background: var(--dark3);
+      border: 1px solid var(--border);
+      color: var(--text);
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      align-self: flex-start;
+      transition: background 0.2s;
+    }
+
+    .modal-close:hover {
+      background: var(--red);
+    }
+
+    .modal-body {
+      padding: 24px;
+    }
+
+    .modal-section-title {
+      font-family: var(--font-head);
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* ── DATE SELECTOR ── */
+    .date-selector {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      margin-bottom: 24px;
+    }
+
+    .date-selector::-webkit-scrollbar {
+      display: none;
+    }
+
+    .date-btn {
+      min-width: 60px;
+      padding: 10px 6px;
+      border-radius: 10px;
+      text-align: center;
+      background: var(--dark3);
+      border: 1.5px solid var(--border);
+      cursor: pointer;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .date-btn:hover {
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .date-btn.active {
+      background: var(--red);
+      border-color: var(--red);
+    }
+
+    .date-day {
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-bottom: 2px;
+    }
+
+    .date-num {
+      font-family: var(--font-head);
+      font-size: 1.2rem;
+      font-weight: 800;
+    }
+
+    .date-month {
+      font-size: 0.65rem;
+      color: var(--muted);
+    }
+
+    .date-btn.active .date-day,
+    .date-btn.active .date-month {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    /* ── SHOWTIME SELECTOR ── */
+    .cinema-block {
+      margin-bottom: 20px;
+    }
+
+    .cinema-name {
+      font-family: var(--font-head);
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cinema-name::before {
+      content: '🎭';
+    }
+
+    .show-times {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .show-time-btn {
+      background: var(--dark3);
+      border: 1.5px solid var(--border);
+      color: var(--text);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .show-time-btn:hover {
+      border-color: var(--teal);
+      color: var(--teal);
+    }
+
+    .show-time-btn.selected {
+      background: var(--teal);
+      border-color: var(--teal);
+      color: #0a0a0f;
+    }
+
+    .avail-tag {
+      font-size: 0.65rem;
+      font-weight: 400;
+      opacity: 0.7;
+    }
+
+    .avail-tag.low {
+      color: var(--red);
+    }
+
+    /* ── SEAT PICKER ── */
+    .seat-section {
+      margin-top: 24px;
+    }
+
+    .screen-label {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.78rem;
+      margin-bottom: 20px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .screen-bar {
+      width: 70%;
+      height: 4px;
+      margin: 0 auto 24px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      border-radius: 2px;
+    }
+
+    .seat-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .seat-row {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+
+    .seat-row-label {
+      width: 18px;
+      text-align: center;
+      font-size: 0.7rem;
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+
+    .seat {
+      width: 26px;
+      height: 22px;
+      border-radius: 5px 5px 3px 3px;
+      border: 1.5px solid var(--border);
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0;
+    }
+
+    .seat.available {
+      background: var(--dark3);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .seat.available:hover {
+      background: var(--teal);
+      border-color: var(--teal);
+    }
+
+    .seat.selected {
+      background: var(--teal);
+      border-color: var(--teal);
+    }
+
+    .seat.booked {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: var(--border);
+      cursor: not-allowed;
+      opacity: 0.4;
+    }
+
+    .seat.premium.available {
+      border-color: var(--gold);
+    }
+
+    .seat.premium:hover,
+    .seat.premium.selected {
+      background: var(--gold);
+      border-color: var(--gold);
+    }
+
+    .seat-legend {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .legend-box {
+      width: 16px;
+      height: 14px;
+      border-radius: 3px;
+      border: 1.5px solid;
+    }
+
+    .lb-available {
+      background: var(--dark3);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .lb-selected {
+      background: var(--teal);
+      border-color: var(--teal);
+    }
+
+    .lb-booked {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: var(--border);
+    }
+
+    .lb-premium {
+      background: var(--dark3);
+      border-color: var(--gold);
+    }
+
+    /* ── BOOKING SUMMARY ── */
+    .booking-summary {
+      background: var(--dark3);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      margin-top: 20px;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.88rem;
+      margin-bottom: 10px;
+    }
+
+    .summary-row label {
+      color: var(--muted);
+    }
+
+    .summary-row span {
+      font-weight: 600;
+    }
+
+    .summary-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 12px 0;
+    }
+
+    .summary-total {
+      font-family: var(--font-head);
+      font-size: 1.1rem;
+      font-weight: 800;
+    }
+
+    .btn-proceed {
+      width: 100%;
+      background: linear-gradient(135deg, var(--red), #c0001a);
+      color: #fff;
+      border: none;
+      padding: 14px;
+      border-radius: 10px;
+      font-family: var(--font-head);
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 14px;
+      transition: opacity 0.2s;
+      box-shadow: 0 4px 20px rgba(232, 0, 29, 0.35);
+    }
+
+    .btn-proceed:hover {
+      opacity: 0.92;
+    }
+
+    .btn-proceed:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    /* ── PAYMENT MODAL ── */
+    .payment-modal {
+      max-width: 480px;
+    }
+
+    .payment-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .pay-opt {
+      background: var(--dark3);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+
+    .pay-opt:hover {
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    .pay-opt.selected {
+      border-color: var(--teal);
+    }
+
+    .pay-opt-icon {
+      font-size: 1.4rem;
+      width: 32px;
+      text-align: center;
+    }
+
+    .pay-opt-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .pay-opt-sub {
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    .pay-radio {
+      margin-left: auto;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      position: relative;
+    }
+
+    .pay-opt.selected .pay-radio {
+      border-color: var(--teal);
+    }
+
+    .pay-opt.selected .pay-radio::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--teal);
+    }
+
+    .input-group {
+      margin-bottom: 14px;
+    }
+
+    .input-group label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .input-group input {
+      width: 100%;
+      background: var(--dark3);
+      border: 1.5px solid var(--border);
+      color: var(--text);
+      padding: 11px 14px;
+      border-radius: 8px;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .input-group input:focus {
+      border-color: var(--teal);
+    }
+
+    .input-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    /* ── SUCCESS SCREEN ── */
+    .success-screen {
+      text-align: center;
+      padding: 40px 24px;
+    }
+
+    .success-icon {
+      font-size: 4rem;
+      margin-bottom: 16px;
+    }
+
+    .success-screen h2 {
+      font-family: var(--font-head);
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .success-screen p {
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .ticket-box {
+      background: var(--dark3);
+      border: 2px dashed rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 340px;
+      text-align: left;
+    }
+
+    .ticket-box h4 {
+      font-family: var(--font-head);
+      font-size: 1.1rem;
+      margin-bottom: 12px;
+    }
+
+    .ticket-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      margin-bottom: 8px;
+    }
+
+    .ticket-row label {
+      color: var(--muted);
+    }
+
+    .ticket-id {
+      font-family: monospace;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 2px;
+    }
+
+    /* ── SPORTS ── */
+    .sports-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .sport-card {
+      background: var(--card);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 20px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+
+    .sport-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255, 255, 255, 0.18);
+    }
+
+    .sport-icon {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    .sport-name {
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+    }
+
+    .sport-sub {
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    /* ── OFFERS STRIP ── */
+    .offers-strip {
+      background: linear-gradient(135deg, #1a0a2e, #0a1a2e);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 8vw;
+      overflow: hidden;
+    }
+
+    .offers-scroll {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+    }
+
+    .offers-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .offer-pill {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 12px 16px;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: border-color 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .offer-pill:hover {
+      border-color: rgba(255, 209, 102, 0.4);
+    }
+
+    .offer-icon {
+      font-size: 1.5rem;
+    }
+
+    .offer-txt {
+      font-size: 0.82rem;
+    }
+
+    .offer-name {
+      font-weight: 700;
+      color: var(--gold);
+    }
+
+    .offer-desc {
+      color: var(--muted);
+      font-size: 0.75rem;
+      margin-top: 1px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--dark2);
+      border-top: 1px solid var(--border);
+      padding: 40px 8vw 20px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 32px;
+    }
+
+    @media(max-width:768px) {
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .footer-brand .logo {
+      font-size: 1.4rem;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .footer-brand p {
+      color: var(--muted);
+      font-size: 0.85rem;
+      line-height: 1.7;
+      max-width: 280px;
+    }
+
+    .footer-col h5 {
+      font-family: var(--font-head);
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+      color: var(--text);
+    }
+
+    .footer-col a {
+      display: block;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      margin-bottom: 8px;
+      transition: color 0.2s;
+      cursor: pointer;
+    }
+
+    .footer-col a:hover {
+      color: var(--text);
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--border);
+      padding-top: 20px;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .footer-socials {
+      display: flex;
+      gap: 12px;
+    }
+
+    .social-btn {
+      width: 36px;
+      height: 36px;
+      background: var(--dark3);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s;
+      font-size: 1rem;
+      border: 1px solid var(--border);
+    }
+
+    .social-btn:hover {
+      background: var(--red);
+    }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 3000;
+      background: var(--dark2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 20px;
+      font-size: 0.88rem;
+      min-width: 260px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.35s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .toast.success {
+      border-left: 4px solid var(--teal);
+    }
+
+    .toast.error {
+      border-left: 4px solid var(--red);
+    }
+
+    .toast-icon {
+      font-size: 1.2rem;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:640px) {
+      .hero-slide {
+        height: 340px;
+        padding: 30px 5vw;
+      }
+
+      .hero-title {
+        font-size: 1.8rem;
+      }
+
+      section {
+        padding: 30px 5vw;
+      }
+
+      nav {
+        padding: 0 5vw;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-in-up {
+      animation: fadeInUp 0.5s ease forwards;
+    }
+
+    .movie-card {
+      animation: fadeInUp 0.5s ease forwards;
+    }
+
+    .movie-card:nth-child(1) {
+      animation-delay: 0.05s;
+    }
+
+    .movie-card:nth-child(2) {
+      animation-delay: 0.1s;
+    }
+
+    .movie-card:nth-child(3) {
+      animation-delay: 0.15s;
+    }
+
+    .movie-card:nth-child(4) {
+      animation-delay: 0.2s;
+    }
+
+    .movie-card:nth-child(5) {
+      animation-delay: 0.25s;
+    }
+
+    .movie-card:nth-child(6) {
+      animation-delay: 0.3s;
+    }
+
+    /* ── SIGN IN MODAL ── */
+    .signin-form {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .signin-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+
+    .signin-tab {
+      flex: 1;
+      text-align: center;
+      padding: 12px;
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      border-bottom: 2.5px solid transparent;
+      color: var(--muted);
+      transition: all 0.2s;
+    }
+
+    .signin-tab.active {
+      color: var(--text);
+      border-bottom-color: var(--red);
+    }
+
+    .google-btn {
+      width: 100%;
+      background: #fff;
+      color: #333;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 16px;
+      transition: opacity 0.2s;
+    }
+
+    .google-btn:hover {
+      opacity: 0.9;
+    }
+
+    .divider-or {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 0.8rem;
+      margin: 16px 0;
+    }
+
+    .divider-or::before,
+    .divider-or::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* NOTIFICATION DOT */
+    .notif-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--red);
+      border-radius: 50%;
+      position: absolute;
+      top: -2px;
+      right: -2px;
+    }
+
+    .nav-icon {
+      position: relative;
+      cursor: pointer;
+      font-size: 1.2rem;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ── NAVBAR ── -->
+  <nav id="navbar">
+    <div class="logo" onclick="showSection('home')">Goo<span>Booking</span></div>
+    <div class="nav-links">
+      <a onclick="showSection('home')">Movies</a>
+      <a onclick="switchCat('events')">Events</a>
+      <a onclick="switchCat('sports')">Sports</a>
+      <a onclick="switchCat('plays')">Plays</a>
+      <a onclick="switchCat('activities')">Activities</a>
+    </div>
+    <div class="nav-right">
+      <div class="city-btn" id="cityBtn">Mumbai</div>
+      <span class="nav-icon">🔔<div class="notif-dot"></div></span>
+      <button class="btn-signin" onclick="openSignIn()">Sign In</button>
+    </div>
+  </nav>
+
+  <!-- ── HERO BANNER ── -->
+  <div class="hero" id="heroSection">
+    <div class="hero-slides" id="heroSlides">
+      <!-- Slides injected by JS -->
+    </div>
+    <button class="hero-arrow hero-prev" onclick="slideHero(-1)">‹</button>
+    <button class="hero-arrow hero-next" onclick="slideHero(1)">›</button>
+    <div class="hero-dots" id="heroDots"></div>
+  </div>
+
+  <!-- ── SEARCH BAR ── -->
+  <div class="search-wrap">
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search for Movies, Events, Plays, Sports and Activities…"
+        oninput="filterContent()">
+      <button class="btn-search" onclick="filterContent()">🔍 Search</button>
+    </div>
+  </div>
+
+  <!-- ── CATEGORY TABS ── -->
+  <div class="cat-tabs" id="catTabs">
+    <div class="cat-tab active" onclick="switchCat('movies')">🎬 Movies</div>
+    <div class="cat-tab" onclick="switchCat('events')">🎵 Events</div>
+    <div class="cat-tab" onclick="switchCat('sports')">⚽ Sports</div>
+    <div class="cat-tab" onclick="switchCat('plays')">🎭 Plays</div>
+    <div class="cat-tab" onclick="switchCat('activities')">🏄 Activities</div>
+  </div>
+
+  <!-- ── MAIN CONTENT ── -->
+  <div id="mainContent"></div>
+
+  <!-- ── OFFERS STRIP ── -->
+  <div class="offers-strip" id="offersStrip">
+    <div class="offers-scroll" id="offersScroll"></div>
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo">Goo<span>Booking</span></div>
+        <p>India's largest entertainment ticketing platform. Book tickets for movies, events, sports, plays, and
+          activities across 650+ cities.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Movies</h5>
+        <a>Now Showing</a>
+        <a>Coming Soon</a>
+        <a>Premieres</a>
+        <a>Bollywood</a>
+        <a>Hollywood</a>
+      </div>
+      <div class="footer-col">
+        <h5>Help</h5>
+        <a>Customer Support</a>
+        <a>FAQs</a>
+        <a>Cancellation Policy</a>
+        <a>About Us</a>
+        <a>Careers</a>
+      </div>
+      <div class="footer-col">
+        <h5>Connect</h5>
+        <a>📱 Download App</a>
+        <a>💼 Partner With Us</a>
+        <a>🎬 List Your Show</a>
+        <a>📧 Newsletter</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 GooBooking Technologies Pvt. Ltd.</span>
+      <div class="footer-socials">
+        <div class="social-btn">𝕏</div>
+        <div class="social-btn">📸</div>
+        <div class="social-btn">▶️</div>
+        <div class="social-btn">📘</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ── MOVIE MODAL ── -->
+  <div class="modal-overlay" id="movieModal">
+    <div class="modal" id="movieModalContent"></div>
+  </div>
+
+  <!-- ── PAYMENT MODAL ── -->
+  <div class="modal-overlay" id="paymentModal">
+    <div class="modal payment-modal" id="paymentModalContent"></div>
+  </div>
+
+  <!-- ── SIGN IN MODAL ── -->
+  <div class="modal-overlay" id="signinModal">
+    <div class="modal payment-modal">
+      <div style="padding:24px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+          <h2 style="font-family:var(--font-head);font-size:1.4rem;font-weight:800;">Welcome to GooBooking</h2>
+          <button class="modal-close" onclick="closeSignIn()">✕</button>
+        </div>
+        <div class="signin-form">
+          <div class="signin-tabs">
+            <div class="signin-tab active" onclick="switchSignInTab('login',this)">Login</div>
+            <div class="signin-tab" onclick="switchSignInTab('register',this)">Register</div>
+          </div>
+          <div id="signinBody">
+            <div class="input-group">
+              <label>Mobile Number or Email</label>
+              <input type="text" placeholder="+91 98765 43210">
+            </div>
+            <div class="input-group">
+              <label>Password</label>
+              <input type="password" placeholder="Enter password">
+            </div>
+            <button class="btn-proceed">Login</button>
+            <div class="divider-or">or</div>
+            <button class="google-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24">
+                <path fill="#4285F4"
+                  d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                <path fill="#34A853"
+                  d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                <path fill="#FBBC05"
+                  d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" />
+                <path fill="#EA4335"
+                  d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+              </svg>
+              Continue with Google
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TOAST ── -->
+  <div class="toast" id="toast">
+    <span class="toast-icon" id="toastIcon">✅</span>
+    <span id="toastMsg">Message</span>
+  </div>
+
+  <script>
+    // ══════════════════════════════════════════════
+    //  DATA
+    // ══════════════════════════════════════════════
+    const MOVIES = [
+      { id: 1, title: "Kalki 2898 AD", genres: "Sci-Fi • Action", rating: "8.4", lang: "Hindi • Telugu", cert: "UA", duration: "181 min", emoji: "🚀", votes: "2.4L", desc: "Set in a post-apocalyptic world, Kalki 2898 AD is a mythological sci-fi epic blending Hindu mythology with futuristic warfare.", price: { standard: 200, premium: 350 } },
+      { id: 2, title: "Pushpa 2: The Rule", genres: "Action • Thriller", rating: "8.7", lang: "Telugu • Hindi", cert: "A", duration: "180 min", emoji: "🔥", votes: "5.1L", desc: "Pushpa Raj continues his war against the smuggling cartel, battling Shekhawat and rising to ultimate power.", price: { standard: 180, premium: 320 } },
+      { id: 3, title: "Devara", genres: "Action • Drama", rating: "7.9", lang: "Telugu • Hindi", cert: "UA", duration: "170 min", emoji: "⚓", votes: "1.8L", desc: "A fearless man rules over the sea and its people. His son must carry his legacy against all odds.", price: { standard: 190, premium: 340 } },
+      { id: 4, title: "Singham Returns", genres: "Action • Crime", rating: "7.6", lang: "Hindi", cert: "UA", duration: "155 min", emoji: "👮", votes: "1.2L", desc: "The fearless cop Singham returns to take down a massive conspiracy shaking the foundations of society.", price: { standard: 180, premium: 300 } },
+      { id: 5, title: "Fighter", genres: "Action • War", rating: "7.8", lang: "Hindi", cert: "UA", duration: "166 min", emoji: "✈️", votes: "1.5L", desc: "India's first aerial action franchise. A squad of Air Force officers go head-to-head with enemies.", price: { standard: 200, premium: 360 } },
+      { id: 6, title: "Oppenheimer", genres: "Biography • Drama", rating: "9.0", lang: "English", cert: "A", duration: "180 min", emoji: "☢️", votes: "3.2L", desc: "The story of American scientist J. Robert Oppenheimer and his role in the development of the atomic bomb.", price: { standard: 220, premium: 380 } },
+      { id: 7, title: "Dune: Part Two", genres: "Sci-Fi • Adventure", rating: "8.8", lang: "English • Hindi", cert: "UA", duration: "167 min", emoji: "🏜️", votes: "2.9L", desc: "Paul Atreides unites with Chani and the Fremen while seeking revenge against the conspirators who destroyed his family.", price: { standard: 210, premium: 370 } },
+      { id: 8, title: "Animal", genres: "Action • Drama", rating: "8.0", lang: "Hindi", cert: "A", duration: "201 min", emoji: "🐾", votes: "2.1L", desc: "A son's unconditional love for his father turns into obsessive revenge after an assassination attempt.", price: { standard: 190, premium: 330 } },
+      { id: 9, title: "Stree 2", genres: "Horror • Comedy", rating: "8.5", lang: "Hindi", cert: "UA", duration: "148 min", emoji: "👻", votes: "1.9L", desc: "The sequel to the cult horror-comedy. New terror, same town, bigger laughs and scares.", price: { standard: 180, premium: 310 } },
+      { id: 10, title: "Lucky Baskhar", genres: "Crime • Thriller", rating: "8.3", lang: "Telugu • Hindi", cert: "UA", duration: "158 min", emoji: "💰", votes: "1.3L", desc: "A meek bank employee turns into a mastermind thief running the biggest heist of the century.", price: { standard: 175, premium: 305 } },
+      { id: 11, title: "Merry Christmas", genres: "Thriller • Romance", rating: "7.5", lang: "Hindi • Tamil", cert: "UA", duration: "138 min", emoji: "🎄", votes: "0.8L", desc: "Two strangers meet on Christmas Eve and get entangled in a mysterious and dangerous night.", price: { standard: 165, premium: 295 } },
+      { id: 12, title: "Sky Force", genres: "Action • War", rating: "7.7", lang: "Hindi", cert: "UA", duration: "145 min", emoji: "🛡️", votes: "0.9L", desc: "India's first and most successful airstrike, told through the lens of two pilots bound by brotherhood.", price: { standard: 185, premium: 325 } },
+    ];
+
+    const EVENTS = [
+      { id: 101, name: "Arijit Singh Live", date: "22 Mar 2026", venue: "MMRDA Grounds, BKC", price: "₹1,499 onwards", emoji: "🎤", category: "Music" },
+      { id: 102, name: "EDM Revolution", date: "5 Apr 2026", venue: "Mahalaxmi Racecourse", price: "₹999 onwards", emoji: "🎧", category: "Music" },
+      { id: 103, name: "Comedy Night with Zakir", date: "15 Mar 2026", venue: "Tata Theatre, NCPA", price: "₹699 onwards", emoji: "😂", category: "Comedy" },
+      { id: 104, name: "Sunburn Music Festival", date: "10 Apr 2026", venue: "Goa Beach Grounds", price: "₹2,499 onwards", emoji: "🌊", category: "Festival" },
+      { id: 105, name: "Stand-Up Comedy Slam", date: "20 Mar 2026", venue: "Canvas Laugh Club", price: "₹499 onwards", emoji: "🎙️", category: "Comedy" },
+      { id: 106, name: "Indie Music Night", date: "28 Mar 2026", venue: "Blue Frog, Mumbai", price: "₹599 onwards", emoji: "🎸", category: "Music" },
+    ];
+
+    const SPORTS = [
+      { id: 201, name: "IPL 2026 – MI vs CSK", date: "Mar 30", venue: "Wankhede Stadium, Mumbai", price: "₹800 onwards", emoji: "🏏", category: "Cricket" },
+      { id: 202, name: "Pro Kabaddi League", date: "Apr 5", venue: "NSCI Dome, Mumbai", price: "₹299 onwards", emoji: "🤼", category: "Kabaddi" },
+      { id: 203, name: "ISL – Mumbai City FC", date: "Mar 22", venue: "DY Patil Stadium", price: "₹500 onwards", emoji: "⚽", category: "Football" },
+      { id: 204, name: "WWE SmackDown India Tour", date: "Apr 12", venue: "Jawaharlal Nehru Stadium, Delhi", price: "₹1,200 onwards", emoji: "🥊", category: "Wrestling" },
+    ];
+
+    const PLAYS = [
+      { id: 301, name: "Tumhari Amrita", date: "Mar 18", venue: "Prithvi Theatre", price: "₹400 onwards", emoji: "📜", category: "Drama" },
+      { id: 302, name: "Mera Woh Matlab Nahi Tha", date: "Mar 25", venue: "St. Andrew's Auditorium", price: "₹350 onwards", emoji: "🎭", category: "Comedy" },
+      { id: 303, name: "Hamlet", date: "Apr 2", venue: "NCPA, Nariman Point", price: "₹600 onwards", emoji: "👑", category: "Drama" },
+    ];
+
+    const ACTIVITIES = [
+      { id: 401, name: "Escape Room Mumbai", date: "Any Day", venue: "Andheri West", price: "₹800 per person", emoji: "🔐", category: "Adventure" },
+      { id: 402, name: "Bungee Jumping Experience", date: "Weekends", venue: "Aamby Valley", price: "₹2,500 per person", emoji: "🎢", category: "Adventure" },
+      { id: 403, name: "Pottery Workshop", date: "Mar 20", venue: "Bandra Art Studio", price: "₹1,200 per person", emoji: "🏺", category: "Workshop" },
+    ];
+
+    const CINEMAS = [
+      { name: "PVR Cinemas – Juhu", shows: ["10:30 AM", "1:45 PM", "5:00 PM", "8:15 PM", "11:30 PM"] },
+      { name: "INOX – Atria Mall", shows: ["11:00 AM", "2:15 PM", "5:30 PM", "8:45 PM"] },
+      { name: "Cinepolis – Versova", shows: ["12:00 PM", "3:30 PM", "7:00 PM", "10:00 PM"] },
+      { name: "PVR – Phoenix Marketcity", shows: ["10:00 AM", "1:00 PM", "4:00 PM", "7:00 PM", "10:30 PM"] },
+      { name: "BookMyShow Stream", shows: ["Premiere – 6:00 PM", "Premiere – 9:00 PM"] },
+    ];
+
+    const HEROES = [
+      { title: "Pushpa 2: The Rule", badge: "Blockbuster", sub: "Part 2 of the epic saga", emoji: "🔥", bg: "linear-gradient(135deg,#1a0a05,#3d1205)", rating: "8.7" },
+      { title: "Kalki 2898 AD", badge: "Now Showing", sub: "Mythology meets the future", emoji: "🚀", bg: "linear-gradient(135deg,#050a1a,#0a2040)", rating: "8.4" },
+      { title: "Sunburn Music Festival", badge: "Special Event", sub: "Goa • 10 April 2026", emoji: "🌊", bg: "linear-gradient(135deg,#00102a,#001a3a)", rating: "★ Must Attend" },
+      { title: "IPL 2026 Season", badge: "Live Sport", sub: "Cricket fever is back!", emoji: "🏏", bg: "linear-gradient(135deg,#0a1a00,#102a05)", rating: "🟢 Book Now" },
+    ];
+
+    const OFFERS = [
+      { icon: "💳", name: "HDFC Offer", desc: "20% off up to ₹200 on HDFC debit cards" },
+      { icon: "📱", name: "GooPay", desc: "₹50 cashback on first transaction" },
+      { icon: "🎓", name: "Student Offer", desc: "Extra 15% off with valid student ID" },
+      { icon: "🌟", name: "Super Saver", desc: "Buy 2 tickets get 1 free – Tuesdays" },
+      { icon: "🏦", name: "SBI Offer", desc: "10% instant discount on SBI cards" },
+      { icon: "💎", name: "GooBooking Insider", desc: "Members get exclusive early access" },
+    ];
+
+    // ══════════════════════════════════════════════
+    //  STATE
+    // ══════════════════════════════════════════════
+    let currentCat = 'movies';
+    let currentSlide = 0;
+    let slideTimer;
+    let selectedSeats = [];
+    let selectedShow = null;
+    let selectedDate = 0;
+    let selectedCinema = null;
+    let currentMovie = null;
+    let paymentMethod = 'upi';
+    let step = 'select'; // select | seat | pay | success
+
+    // ══════════════════════════════════════════════
+    //  HERO
+    // ══════════════════════════════════════════════
+    function buildHero() {
+      const wrap = document.getElementById('heroSlides');
+      const dots = document.getElementById('heroDots');
+      wrap.innerHTML = '';
+      dots.innerHTML = '';
+      HEROES.forEach((h, i) => {
+        const slide = document.createElement('div');
+        slide.className = 'hero-slide';
+        slide.style.background = h.bg;
+        slide.innerHTML = `
+      <div class="hero-content">
+        <div class="hero-badge">${h.badge}</div>
+        <div class="hero-title">${h.emoji} ${h.title}</div>
+        <div class="hero-meta">${h.sub} &nbsp;•&nbsp; <span>${h.rating}</span></div>
+        <button class="btn-book" onclick="heroClick(${i})">Book Tickets</button>
+      </div>
+    `;
+        wrap.appendChild(slide);
+        const dot = document.createElement('div');
+        dot.className = 'hero-dot' + (i === 0 ? ' active' : '');
+        dot.onclick = () => goToSlide(i);
+        dots.appendChild(dot);
+      });
+      startSlideTimer();
+    }
+
+    function goToSlide(i) {
+      currentSlide = i;
+      document.getElementById('heroSlides').style.transform = `translateX(-${i * 100}%)`;
+      document.querySelectorAll('.hero-dot').forEach((d, j) => d.classList.toggle('active', j === i));
+    }
+    function slideHero(dir) {
+      currentSlide = (currentSlide + dir + HEROES.length) % HEROES.length;
+      goToSlide(currentSlide);
+      resetTimer();
+    }
+    function startSlideTimer() { slideTimer = setInterval(() => slideHero(1), 4500); }
+    function resetTimer() { clearInterval(slideTimer); startSlideTimer(); }
+
+    function heroClick(i) {
+      if (i < 2) openMovieModal(MOVIES[i]);
+      else if (i === 2) switchCat('events');
+      else switchCat('sports');
+    }
+
+    // ══════════════════════════════════════════════
+    //  CATEGORY TABS
+    // ══════════════════════════════════════════════
+    function switchCat(cat) {
+      currentCat = cat;
+      document.querySelectorAll('.cat-tab').forEach((t, i) => {
+        const cats = ['movies', 'events', 'sports', 'plays', 'activities'];
+        t.classList.toggle('active', cats[i] === cat);
+      });
+      renderContent();
+      document.getElementById('mainContent').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // ══════════════════════════════════════════════
+    //  RENDER CONTENT
+    // ══════════════════════════════════════════════
+    function renderContent(filter = '') {
+      const mc = document.getElementById('mainContent');
+      const fl = filter.toLowerCase();
+      if (currentCat === 'movies') {
+        const filtered = MOVIES.filter(m => !fl || m.title.toLowerCase().includes(fl) || m.genres.toLowerCase().includes(fl));
+        mc.innerHTML = `
+      <section>
+        <div class="section-header">
+          <div class="section-title">Now <span>Showing</span></div>
+          <a class="see-all">See All →</a>
+        </div>
+        <div class="movies-grid">${filtered.map(m => movieCard(m)).join('')}</div>
+      </section>
+      <section>
+        <div class="section-header">
+          <div class="section-title">Premieres &amp; <span>Exclusives</span></div>
+          <a class="see-all">View All →</a>
+        </div>
+        <div class="premiere-cards">
+          ${[MOVIES[6], MOVIES[4], MOVIES[8]].map(m => `
+            <div class="premiere-card" onclick='openMovieModal(${JSON.stringify(m)})'>
+              <div class="premiere-card-bg" style="background:linear-gradient(135deg,#1a0a2e,#2d1050)">${m.emoji}</div>
+              <div class="premiere-info"><h4>${m.title}</h4><p>${m.genres} • ${m.cert}</p></div>
+            </div>`).join('')}
+        </div>
+      </section>
+      <section>
+        <div class="section-header">
+          <div class="section-title">Upcoming <span>Releases</span></div>
+          <a class="see-all">More →</a>
+        </div>
+        <div class="movies-grid">${[...MOVIES].reverse().slice(0, 6).map(m => movieCard(m)).join('')}</div>
+      </section>
+    `;
+      } else if (currentCat === 'events') {
+        const filtered = EVENTS.filter(e => !fl || e.name.toLowerCase().includes(fl));
+        mc.innerHTML = `
+      <section>
+        <div class="section-header">
+          <div class="section-title">Upcoming <span>Events</span></div>
+          <a class="see-all">See All →</a>
+        </div>
+        <div class="events-scroll">${filtered.map(e => eventCard(e, 'event')).join('')}</div>
+      </section>
+      <section>
+        <div class="section-header">
+          <div class="section-title">Music <span>Concerts</span></div>
+        </div>
+        <div class="events-scroll">${EVENTS.filter(e => e.category === 'Music').map(e => eventCard(e, 'event')).join('')}</div>
+      </section>
+    `;
+      } else if (currentCat === 'sports') {
+        mc.innerHTML = `
+      <section>
+        <div class="section-header">
+          <div class="section-title">Live <span>Sports</span></div>
+          <a class="see-all">All Matches →</a>
+        </div>
+        <div class="events-scroll">${SPORTS.map(e => eventCard(e, 'sport')).join('')}</div>
+      </section>
+      <section>
+        <div class="section-header">
+          <div class="section-title">Sport <span>Categories</span></div>
+        </div>
+        <div class="sports-grid">
+          ${[['🏏', 'Cricket', '27 Matches'], ['⚽', 'Football', '12 Matches'], ['🏸', 'Badminton', '6 Events'], ['🎾', 'Tennis', '8 Events'], ['🏊', 'Swimming', '3 Events'], ['🏈', 'Kabaddi', '18 Matches']].map(s => `
+            <div class="sport-card"><div class="sport-icon">${s[0]}</div><div class="sport-name">${s[1]}</div><div class="sport-sub">${s[2]}</div></div>
+          `).join('')}
+        </div>
+      </section>
+    `;
+      } else if (currentCat === 'plays') {
+        mc.innerHTML = `
+      <section>
+        <div class="section-header">
+          <div class="section-title">Plays &amp; <span>Theatre</span></div>
+        </div>
+        <div class="events-scroll">${PLAYS.map(e => eventCard(e, 'play')).join('')}</div>
+      </section>
+    `;
+      } else if (currentCat === 'activities') {
+        mc.innerHTML = `
+      <section>
+        <div class="section-header">
+          <div class="section-title">Fun <span>Activities</span></div>
+        </div>
+        <div class="events-scroll">${ACTIVITIES.map(e => eventCard(e, 'activity')).join('')}</div>
+      </section>
+    `;
+      }
+    }
+
+    function movieCard(m) {
+      return `
+    <div class="movie-card" onclick='openMovieModal(${JSON.stringify(m).replace(/'/g, "&#39;")})'>
+      <div class="movie-poster-wrap">
+        <div class="poster-placeholder" style="background:linear-gradient(135deg,#1a0a2e,#0a1a3e)">${m.emoji}</div>
+        <div class="book-now-overlay"><span class="book-now-txt">▶ Book Now</span></div>
+      </div>
+      <div class="movie-card-body">
+        <div class="movie-name">${m.title}</div>
+        <div class="movie-genres">${m.genres}</div>
+        <div class="movie-rating">&nbsp;${m.rating}/10 · ${m.votes} votes</div>
+        <div class="movie-lang">${m.lang}</div>
+      </div>
+    </div>
+  `;
+    }
+
+    function eventCard(e, type) {
+      const colors = { event: 'linear-gradient(135deg,#1a0040,#2d0050)', sport: 'linear-gradient(135deg,#001a10,#002a20)', play: 'linear-gradient(135deg,#1a0010,#2a0018)', activity: 'linear-gradient(135deg,#1a1000,#2a1a00)' };
+      return `
+    <div class="event-card" onclick="showToast('Booking for ${e.name}...','✅')">
+      <div class="event-img" style="background:${colors[type] || colors.event}">${e.emoji}</div>
+      <div class="event-body">
+        <div class="event-name">${e.name}</div>
+        <div class="event-date">📅 ${e.date}</div>
+        <div class="event-venue">📍 ${e.venue}</div>
+        <div class="event-price">${e.price}</div>
+      </div>
+    </div>
+  `;
+    }
+
+    // ══════════════════════════════════════════════
+    //  OFFERS
+    // ══════════════════════════════════════════════
+    function buildOffers() {
+      document.getElementById('offersScroll').innerHTML = OFFERS.map(o => `
+    <div class="offer-pill">
+      <div class="offer-icon">${o.icon}</div>
+      <div class="offer-txt"><div class="offer-name">${o.name}</div><div class="offer-desc">${o.desc}</div></div>
+    </div>
+  `).join('');
+    }
+
+    // ══════════════════════════════════════════════
+    //  MOVIE MODAL
+    // ══════════════════════════════════════════════
+    function openMovieModal(movie) {
+      currentMovie = movie;
+      selectedSeats = [];
+      selectedShow = null;
+      selectedDate = 0;
+      step = 'select';
+      renderMovieModal();
+      document.getElementById('movieModal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMovieModal() {
+      document.getElementById('movieModal').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function renderMovieModal() {
+      const m = currentMovie;
+      const dates = getNextDates();
+      const mc = document.getElementById('movieModalContent');
+      mc.innerHTML = `
+    <div class="modal-header">
+      <div class="modal-poster">${m.emoji}</div>
+      <div class="modal-info">
+        <div class="modal-title">${m.title}</div>
+        <div class="modal-meta">
+          <strong>Genre:</strong> ${m.genres}<br>
+          <strong>Duration:</strong> ${m.duration}<br>
+          <strong>Certificate:</strong> ${m.cert}<br>
+          <strong>Language:</strong> ${m.lang}<br>
+          <strong>Rating:</strong> ⭐ ${m.rating}/10
+        </div>
+        <p style="color:var(--muted);font-size:0.82rem;margin-top:10px;line-height:1.6">${m.desc}</p>
+      </div>
+      <button class="modal-close" onclick="closeMovieModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section-title">Select Date</div>
+      <div class="date-selector">
+        ${dates.map((d, i) => `
+          <div class="date-btn ${i === selectedDate ? 'active' : ''}" onclick="selectDate(${i})">
+            <div class="date-day">${d.day}</div>
+            <div class="date-num">${d.num}</div>
+            <div class="date-month">${d.mon}</div>
+          </div>`).join('')}
+      </div>
+      <div class="modal-section-title">Select Venue & Show</div>
+      ${CINEMAS.map((c, ci) => `
+        <div class="cinema-block">
+          <div class="cinema-name">${c.name}</div>
+          <div class="show-times">
+            ${c.shows.map((s, si) => {
+        const isAvail = Math.random() > 0.2;
+        const avail = isAvail ? 'Available' : Math.random() > 0.5 ? 'Fast Filling' : 'Few Seats Left';
+        const cls = avail === 'Available' ? '' : 'low';
+        const key = `${ci}-${si}`;
+        return `<div class="show-time-btn ${selectedShow === key ? 'selected' : ''}" onclick="selectShow('${key}','${s}','${c.name}')">
+                <span>${s}</span>
+                <span class="avail-tag ${cls}">${avail}</span>
+              </div>`;
+      }).join('')}
+          </div>
+        </div>`).join('')}
+      ${selectedShow ? renderSeatPicker() : ''}
+    </div>
+  `;
+    }
+
+    function getNextDates() {
+      const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      const today = new Date(2026, 2, 12); // March 12 2026
+      return Array.from({ length: 8 }, (_, i) => {
+        const d = new Date(today); d.setDate(d.getDate() + i);
+        return { day: i === 0 ? 'Today' : i === 1 ? 'Tmrw' : days[d.getDay()], num: d.getDate(), mon: months[d.getMonth()] };
+      });
+    }
+
+    function selectDate(i) { selectedDate = i; selectedShow = null; selectedSeats = []; renderMovieModal(); }
+    function selectShow(key, time, cinema) {
+      selectedShow = key; selectedShow_time = time; selectedShow_cinema = cinema;
+      selectedSeats = []; renderMovieModal();
+      setTimeout(() => { const el = document.querySelector('.seat-section'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 100);
+    }
+
+    function renderSeatPicker() {
+      const rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+      const seatsPerRow = 12;
+      // Pre-book some seats randomly (seeded by movie id)
+      const bookedSet = new Set();
+      const seed = currentMovie.id * 37;
+      for (let i = 0; i < 20; i++) bookedSet.add(`${rows[i % 8]}${((seed * i) % seatsPerRow) + 1}`);
+
+      const totalPrice = selectedSeats.reduce((acc, s) => {
+        return acc + (s.startsWith('A') || s.startsWith('B') ? currentMovie.price.premium : currentMovie.price.standard);
+      }, 0);
+
+      return `
+    <div class="seat-section">
+      <div class="modal-section-title">Select Seats</div>
+      <div class="screen-label">Screen This Way</div>
+      <div class="screen-bar"></div>
+      <div class="seat-grid">
+        ${rows.map(r => `
+          <div class="seat-row">
+            <div class="seat-row-label">${r}</div>
+            ${Array.from({ length: seatsPerRow }, (_, i) => {
+        const id = `${r}${i + 1}`;
+        const booked = bookedSet.has(id);
+        const sel = selectedSeats.includes(id);
+        const prem = r === 'A' || r === 'B';
+        return `<div class="seat ${booked ? 'booked' : sel ? 'selected' : 'available'} ${prem ? 'premium' : ''}" 
+                onclick="${booked ? '' : ''}" 
+                ${booked ? '' : 'onclick="toggleSeat(\'' + id + '\')"'}></div>`;
+      }).join('')}
+          </div>`).join('')}
+      </div>
+      <div class="seat-legend">
+        <div class="legend-item"><div class="legend-box lb-available"></div>Available</div>
+        <div class="legend-item"><div class="legend-box lb-selected"></div>Selected</div>
+        <div class="legend-item"><div class="legend-box lb-booked"></div>Booked</div>
+        <div class="legend-item"><div class="legend-box lb-premium"></div>Premium</div>
+      </div>
+      <div class="booking-summary">
+        <div class="summary-row"><label>Show</label><span>${selectedShow_time}</span></div>
+        <div class="summary-row"><label>Cinema</label><span>${selectedShow_cinema}</span></div>
+        <div class="summary-row"><label>Seats</label><span>${selectedSeats.length > 0 ? selectedSeats.join(', ') : 'None selected'}</span></div>
+        <div class="summary-row"><label>Tickets</label><span>${selectedSeats.length}</span></div>
+        <hr class="summary-divider">
+        <div class="summary-row summary-total"><label>Total</label><span>₹${totalPrice}${selectedSeats.length > 0 ? '+convenience fee' : ''}</span></div>
+        <button class="btn-proceed" ${selectedSeats.length === 0 ? 'disabled' : ''} onclick="openPayment()">
+          ${selectedSeats.length === 0 ? 'Select seats to continue' : 'Proceed to Pay ₹' + totalPrice}
+        </button>
+      </div>
+    </div>
+  `;
+    }
+
+    function toggleSeat(id) {
+      if (selectedSeats.includes(id)) selectedSeats = selectedSeats.filter(s => s !== id);
+      else if (selectedSeats.length < 6) selectedSeats.push(id);
+      else { showToast('Max 6 seats per booking', '⚠️'); return; }
+      // Re-render seat section only
+      const ss = document.querySelector('.seat-section');
+      if (ss) ss.outerHTML = renderSeatPicker();
+      // We need to re-inject
+      const modal = document.getElementById('movieModalContent');
+      const body = modal.querySelector('.modal-body');
+      const existing = body.querySelector('.seat-section');
+      if (existing) {
+        const tmp = document.createElement('div');
+        tmp.innerHTML = renderSeatPicker();
+        existing.replaceWith(tmp.firstChild);
+      }
+    }
+
+    // ══════════════════════════════════════════════
+    //  PAYMENT
+    // ══════════════════════════════════════════════
+    function openPayment() {
+      if (selectedSeats.length === 0) return;
+      const totalPrice = selectedSeats.reduce((acc, s) => {
+        return acc + (s.startsWith('A') || s.startsWith('B') ? currentMovie.price.premium : currentMovie.price.standard);
+      }, 0);
+      const convenience = Math.round(totalPrice * 0.03);
+      const grand = totalPrice + convenience;
+
+      document.getElementById('paymentModalContent').innerHTML = `
+    <div style="padding:24px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+        <h2 style="font-family:var(--font-head);font-size:1.3rem;font-weight:800;">Complete Payment</h2>
+        <button class="modal-close" onclick="closePayment()">✕</button>
+      </div>
+      <div class="booking-summary" style="margin-bottom:20px;">
+        <div class="summary-row"><label>Movie</label><span>${currentMovie.title}</span></div>
+        <div class="summary-row"><label>Seats</label><span>${selectedSeats.join(', ')}</span></div>
+        <div class="summary-row"><label>Show</label><span>${selectedShow_time} • ${selectedShow_cinema}</span></div>
+        <hr class="summary-divider">
+        <div class="summary-row"><label>Ticket Amount</label><span>₹${totalPrice}</span></div>
+        <div class="summary-row"><label>Convenience Fee</label><span>₹${convenience}</span></div>
+        <hr class="summary-divider">
+        <div class="summary-row summary-total"><label>Grand Total</label><span>₹${grand}</span></div>
+      </div>
+      <div class="modal-section-title">Select Payment Method</div>
+      <div class="payment-options">
+        ${[['💸', 'upi', 'UPI / QR Code', 'PhonePe, GPay, Paytm'], ['💳', 'card', 'Credit / Debit Card', 'Visa, Mastercard, Rupay'], ['🏦', 'netbanking', 'Net Banking', 'All major banks'], ['💰', 'wallet', 'Wallets', 'Paytm, Amazon Pay']].map(([ic, id, nm, sb]) => `
+          <div class="pay-opt ${paymentMethod === id ? 'selected' : ''}" onclick="selectPayment('${id}')">
+            <div class="pay-opt-icon">${ic}</div>
+            <div><div class="pay-opt-name">${nm}</div><div class="pay-opt-sub">${sb}</div></div>
+            <div class="pay-radio"></div>
+          </div>`).join('')}
+      </div>
+      <div id="paymentFields">${renderPayFields()}</div>
+      <button class="btn-proceed" onclick="processPayment(${grand})">Pay ₹${grand} Securely 🔒</button>
+    </div>
+  `;
+      document.getElementById('paymentModal').classList.add('open');
+    }
+
+    function renderPayFields() {
+      if (paymentMethod === 'upi') return `
+    <div class="input-group"><label>UPI ID</label><input type="text" placeholder="yourname@upi"></div>`;
+      if (paymentMethod === 'card') return `
+    <div class="input-group"><label>Card Number</label><input type="text" placeholder="0000 0000 0000 0000" maxlength="19"></div>
+    <div class="input-row">
+      <div class="input-group"><label>Expiry</label><input type="text" placeholder="MM/YY"></div>
+      <div class="input-group"><label>CVV</label><input type="text" placeholder="•••" maxlength="3"></div>
+    </div>
+    <div class="input-group"><label>Name on Card</label><input type="text" placeholder="Full Name"></div>`;
+      if (paymentMethod === 'netbanking') return `
+    <div class="input-group"><label>Select Bank</label><input type="text" placeholder="Search bank name…"></div>`;
+      return `<div class="input-group"><label>Wallet Mobile</label><input type="text" placeholder="+91 XXXXX XXXXX"></div>`;
+    }
+
+    function selectPayment(id) {
+      paymentMethod = id;
+      const pc = document.getElementById('paymentModalContent');
+      if (!pc) return;
+      pc.querySelectorAll('.pay-opt').forEach(el => {
+        const m = el.getAttribute('onclick').match(/'(\w+)'/);
+        if (m) el.classList.toggle('selected', m[1] === id);
+      });
+      document.getElementById('paymentFields').innerHTML = renderPayFields();
+    }
+
+    function closePayment() {
+      document.getElementById('paymentModal').classList.remove('open');
+    }
+
+    function processPayment(amount) {
+      showToast('Processing payment...', '⏳');
+      setTimeout(() => {
+        closePayment();
+        closeMovieModal();
+        showSuccessModal(amount);
+      }, 1800);
+    }
+
+    function showSuccessModal(amount) {
+      const bookingId = 'GOO' + Math.random().toString(36).substr(2, 8).toUpperCase();
+      const dates = getNextDates();
+      document.getElementById('paymentModalContent').innerHTML = `
+    <div class="success-screen">
+      <div class="success-icon">🎉</div>
+      <h2>Booking Confirmed!</h2>
+      <p>Your tickets have been booked successfully.</p>
+      <div class="ticket-box">
+        <h4>${currentMovie.title}</h4>
+        <div class="summary-row"><label>Show Time</label><span>${selectedShow_time}</span></div>
+        <div class="summary-row"><label>Cinema</label><span>${selectedShow_cinema}</span></div>
+        <div class="summary-row"><label>Seats</label><span>${selectedSeats.join(', ')}</span></div>
+        <div class="summary-row"><label>Date</label><span>${dates[selectedDate].num} ${dates[selectedDate].mon} 2026</span></div>
+        <hr class="summary-divider">
+        <div class="summary-row summary-total"><label>Amount Paid</label><span>₹${amount}</span></div>
+        <div style="margin-top:12px;text-align:center">
+          <div style="font-size:0.75rem;color:var(--muted);margin-bottom:4px">Booking ID</div>
+          <div class="ticket-id">${bookingId}</div>
+        </div>
+      </div>
+      <p style="font-size:0.8rem;color:var(--muted)">A confirmation has been sent to your registered email & mobile.</p>
+      <button class="btn-proceed" onclick="closePayment()">Done 👍</button>
+    </div>
+  `;
+      document.getElementById('paymentModal').classList.add('open');
+      showToast('Booking confirmed! Enjoy the show 🎬', '🎉');
+    }
+
+    // ══════════════════════════════════════════════
+    //  SIGN IN
+    // ══════════════════════════════════════════════
+    function openSignIn() { document.getElementById('signinModal').classList.add('open'); document.body.style.overflow = 'hidden'; }
+    function closeSignIn() { document.getElementById('signinModal').classList.remove('open'); document.body.style.overflow = ''; }
+    function switchSignInTab(tab, el) {
+      document.querySelectorAll('.signin-tab').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+    }
+
+    // ══════════════════════════════════════════════
+    //  SEARCH
+    // ══════════════════════════════════════════════
+    function filterContent() {
+      const q = document.getElementById('searchInput').value;
+      renderContent(q);
+    }
+
+    // ══════════════════════════════════════════════
+    //  TOAST
+    // ══════════════════════════════════════════════
+    let toastTimer;
+    function showToast(msg, icon = '✅') {
+      const t = document.getElementById('toast');
+      document.getElementById('toastMsg').textContent = msg;
+      document.getElementById('toastIcon').textContent = icon;
+      t.className = 'toast show success';
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    // ══════════════════════════════════════════════
+    //  CLOSE MODALS ON OVERLAY CLICK
+    // ══════════════════════════════════════════════
+    document.getElementById('movieModal').addEventListener('click', e => { if (e.target === e.currentTarget) closeMovieModal(); });
+    document.getElementById('paymentModal').addEventListener('click', e => { if (e.target === e.currentTarget) closePayment(); });
+    document.getElementById('signinModal').addEventListener('click', e => { if (e.target === e.currentTarget) closeSignIn(); });
+
+    // ══════════════════════════════════════════════
+    //  INIT
+    // ══════════════════════════════════════════════
+    buildHero();
+    buildOffers();
+    renderContent();
+
+    // City selector
+    document.getElementById('cityBtn').onclick = function () {
+      const cities = ['Mumbai', 'Delhi', 'Bengaluru', 'Chennai', 'Hyderabad', 'Kolkata', 'Pune', 'Ahmedabad'];
+      const city = cities[Math.floor(Math.random() * cities.length)];
+      this.textContent = city;
+      showToast(`Location changed to ${city}`, '📍');
+    };
+  </script>
+</body>
+
+</html>
