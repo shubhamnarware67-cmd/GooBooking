@@ -1,0 +1,3160 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GooBooking – Movies, Anime, Shows & More</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800;900&family=Outfit:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --primary: #E8001D;
+      --primary-glow: rgba(232, 0, 29, 0.3);
+      --gold: #FFD166;
+      --teal: #06D6A0;
+      --purple: #8B5CF6;
+      --pink: #F472B6;
+      --dark: #080810;
+      --dark2: #0F0F1A;
+      --dark3: #161622;
+      --dark4: #1E1E2E;
+      --card: #1A1A28;
+      --border: rgba(255, 255, 255, 0.07);
+      --text: #E8E8F0;
+      --muted: #6B7280;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      font-size: 16px;
+    }
+
+    body {
+      background: var(--dark);
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--dark2);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--primary);
+      border-radius: 10px;
+    }
+
+    /* ──── UTILITY ──── */
+    .font-head {
+      font-family: 'Syne', sans-serif;
+    }
+
+    .grad-text {
+      background: linear-gradient(135deg, #E8001D, #FF6B35);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .gold-text {
+      color: var(--gold);
+    }
+
+    .teal-text {
+      color: var(--teal);
+    }
+
+    .purple-text {
+      color: var(--purple);
+    }
+
+    .glass {
+      background: rgba(22, 22, 34, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+    }
+
+    .glow-btn {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+
+    .glow-btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .glow-btn:hover::after {
+      opacity: 1;
+    }
+
+    .glow-btn:hover {
+      box-shadow: 0 8px 30px var(--primary-glow);
+      transform: translateY(-2px);
+    }
+
+    /* ──── NOISE OVERLAY ──── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    /* ──── NAVBAR ──── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(8, 8, 16, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      height: 64px;
+      display: flex;
+      align-items: center;
+      padding: 0 2rem;
+      transition: all 0.3s;
+    }
+
+    .nav-inner {
+      max-width: 1400px;
+      width: 100%;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 900;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      list-style: none;
+      flex: 1;
+    }
+
+    .nav-links a {
+      color: #9CA3AF;
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      padding: 0.5rem 0.875rem;
+      border-radius: 10px;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      white-space: nowrap;
+    }
+
+    .nav-links a:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .nav-links a.active {
+      color: #fff;
+      background: rgba(232, 0, 29, 0.15);
+      color: #FF6B6B;
+    }
+
+    .nav-links a .badge {
+      background: var(--primary);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 1px 5px;
+      border-radius: 20px;
+      animation: pulse-badge 2s infinite;
+    }
+
+    @keyframes pulse-badge {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.6;
+      }
+    }
+
+    .nav-search {
+      position: relative;
+      flex: 0 0 220px;
+    }
+
+    .nav-search input {
+      width: 100%;
+      background: var(--dark3);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.5rem 1rem 0.5rem 2.5rem;
+      font-size: 0.8rem;
+      color: #fff;
+      outline: none;
+      transition: border 0.2s;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .nav-search input:focus {
+      border-color: rgba(232, 0, 29, 0.4);
+    }
+
+    .nav-search i {
+      position: absolute;
+      left: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .city-btn {
+      background: var(--dark3);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.5rem 0.875rem;
+      font-size: 0.8rem;
+      color: #ddd;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .city-btn:hover {
+      border-color: var(--teal);
+      color: var(--teal);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 0.5rem 1.25rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      font-family: 'Syne', sans-serif;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .btn-primary:hover {
+      background: #c0001a;
+      box-shadow: 0 4px 20px rgba(232, 0, 29, 0.4);
+    }
+
+    .avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--purple));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    /* ──── PAGE TABS / VIEWS ──── */
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    /* ──── HERO SECTION ──── */
+    .hero {
+      min-height: 100vh;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      padding-top: 64px;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #0A0010 0%, #000820 40%, #08080F 100%);
+    }
+
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    .hero-orbs {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      animation: orb-float 8s ease-in-out infinite;
+    }
+
+    .orb-1 {
+      width: 500px;
+      height: 500px;
+      background: rgba(232, 0, 29, 0.08);
+      top: -100px;
+      left: -100px;
+      animation-delay: 0s;
+    }
+
+    .orb-2 {
+      width: 400px;
+      height: 400px;
+      background: rgba(139, 92, 246, 0.08);
+      top: 100px;
+      right: 0;
+      animation-delay: 3s;
+    }
+
+    .orb-3 {
+      width: 300px;
+      height: 300px;
+      background: rgba(6, 214, 160, 0.06);
+      bottom: 0;
+      left: 30%;
+      animation-delay: 6s;
+    }
+
+    @keyframes orb-float {
+
+      0%,
+      100% {
+        transform: translateY(0) scale(1);
+      }
+
+      50% {
+        transform: translateY(-30px) scale(1.05);
+      }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 5rem 2rem 3rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      min-height: calc(100vh - 64px);
+    }
+
+    .hero-left {}
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(232, 0, 29, 0.1);
+      border: 1px solid rgba(232, 0, 29, 0.25);
+      border-radius: 100px;
+      padding: 0.4rem 1rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #FF6B6B;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-badge span {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--primary);
+      animation: pulse-dot 1.5s infinite;
+      display: block;
+    }
+
+    @keyframes pulse-dot {
+
+      0%,
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+
+      50% {
+        transform: scale(1.5);
+        opacity: 0.6;
+      }
+    }
+
+    .hero-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 900;
+      line-height: 1.05;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-desc {
+      font-size: 1.1rem;
+      color: #9CA3AF;
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+      max-width: 480px;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+    }
+
+    .btn-hero-primary {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      padding: 1rem 2rem;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s;
+      text-decoration: none;
+    }
+
+    .btn-hero-primary:hover {
+      box-shadow: 0 12px 40px rgba(232, 0, 29, 0.4);
+      transform: translateY(-3px);
+    }
+
+    .btn-hero-secondary {
+      background: rgba(255, 255, 255, 0.06);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      padding: 1rem 2rem;
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s;
+      text-decoration: none;
+    }
+
+    .btn-hero-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-3px);
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .stat {}
+
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.75rem;
+      font-weight: 900;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    /* Category Pills in hero */
+    .hero-categories {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 2rem;
+    }
+
+    .cat-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--dark3);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.6rem 1.25rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      color: #ccc;
+    }
+
+    .cat-pill:hover,
+    .cat-pill.active {
+      background: rgba(232, 0, 29, 0.1);
+      border-color: rgba(232, 0, 29, 0.3);
+      color: #fff;
+    }
+
+    .cat-pill.anime:hover,
+    .cat-pill.anime.active {
+      background: rgba(139, 92, 246, 0.1);
+      border-color: rgba(139, 92, 246, 0.3);
+      color: var(--purple);
+    }
+
+    .cat-pill.shows:hover,
+    .cat-pill.shows.active {
+      background: rgba(6, 214, 160, 0.1);
+      border-color: rgba(6, 214, 160, 0.3);
+      color: var(--teal);
+    }
+
+    .cat-pill.sports:hover,
+    .cat-pill.sports.active {
+      background: rgba(255, 209, 102, 0.1);
+      border-color: rgba(255, 209, 102, 0.3);
+      color: var(--gold);
+    }
+
+    .cat-pill.comedy:hover,
+    .cat-pill.comedy.active {
+      background: rgba(244, 114, 182, 0.1);
+      border-color: rgba(244, 114, 182, 0.3);
+      color: var(--pink);
+    }
+
+    /* Hero right - featured card stack */
+    .hero-right {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .featured-card {
+      width: 280px;
+      border-radius: 24px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
+      transform: perspective(1000px) rotateY(-10deg) rotateX(5deg);
+      transition: transform 0.4s;
+    }
+
+    .featured-card:hover {
+      transform: perspective(1000px) rotateY(0) rotateX(0) scale(1.02);
+    }
+
+    .featured-card-img {
+      aspect-ratio: 2/3;
+      background: linear-gradient(135deg, #1a0030, #000830, #001020);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .featured-card-img::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 40%, rgba(0, 0, 0, 0.95) 100%);
+    }
+
+    .featured-card-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 1.5rem;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.98), transparent);
+    }
+
+    .featured-card-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin-bottom: 0.4rem;
+    }
+
+    .featured-card-meta {
+      font-size: 0.8rem;
+      color: #aaa;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .card-stack-1 {
+      position: absolute;
+      width: 240px;
+      height: 300px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #1a1a30, #0d0d20);
+      border: 1px solid var(--border);
+      right: 1rem;
+      top: 2rem;
+      transform: perspective(1000px) rotateY(5deg) rotate(5deg);
+      z-index: 0;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      opacity: 0.7;
+    }
+
+    .card-stack-2 {
+      position: absolute;
+      width: 200px;
+      height: 260px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #200020, #000820);
+      border: 1px solid var(--border);
+      left: 1rem;
+      bottom: 2rem;
+      transform: perspective(1000px) rotateY(-5deg) rotate(-8deg);
+      z-index: 0;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      opacity: 0.5;
+    }
+
+    /* ──── SECTION COMMON ──── */
+    .section {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 2rem;
+    }
+
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.75rem;
+      font-weight: 800;
+    }
+
+    .section-subtitle {
+      color: var(--muted);
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+    }
+
+    .see-all {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--primary);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: gap 0.2s;
+    }
+
+    .see-all:hover {
+      gap: 0.6rem;
+    }
+
+    /* ──── SCROLL ROW ──── */
+    .scroll-row {
+      display: flex;
+      gap: 1rem;
+      overflow-x: auto;
+      padding-bottom: 1rem;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .scroll-row::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* ──── MOVIE CARD ──── */
+    .mc {
+      flex-shrink: 0;
+      width: 160px;
+      cursor: pointer;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .mc:hover {
+      transform: translateY(-8px) scale(1.03);
+    }
+
+    .mc:hover .mc-overlay {
+      opacity: 1;
+    }
+
+    .mc:hover .mc-img img {
+      transform: scale(1.08);
+    }
+
+    .mc-poster {
+      border-radius: 14px;
+      overflow: hidden;
+      aspect-ratio: 2/3;
+      position: relative;
+      background: var(--dark3);
+      border: 1px solid var(--border);
+    }
+
+    .mc-img {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .mc-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s;
+    }
+
+    .mc-img-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.5rem;
+      background: linear-gradient(135deg, var(--dark3), var(--dark2));
+    }
+
+    .mc-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(232, 0, 29, 0.9) 0%, rgba(0, 0, 0, 0.3) 100%);
+      display: flex;
+      align-items: flex-end;
+      padding: 0.875rem;
+      opacity: 0;
+      transition: opacity 0.3s;
+      border-radius: 14px;
+    }
+
+    .mc-book-btn {
+      width: 100%;
+      background: #fff;
+      color: var(--primary);
+      border: none;
+      border-radius: 8px;
+      padding: 0.5rem;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .mc-book-btn:hover {
+      background: var(--gold);
+      color: #000;
+    }
+
+    .mc-badge {
+      position: absolute;
+      top: 0.5rem;
+      left: 0.5rem;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(6px);
+      border-radius: 8px;
+      padding: 0.25rem 0.5rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      gap: 0.2rem;
+    }
+
+    .mc-cert {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(6px);
+      border-radius: 6px;
+      padding: 0.2rem 0.4rem;
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: #ddd;
+    }
+
+    .mc-info {
+      padding: 0.625rem 0.25rem 0;
+    }
+
+    .mc-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.82rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 0.2rem;
+    }
+
+    .mc-genre {
+      font-size: 0.72rem;
+      color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .mc-tags {
+      display: flex;
+      gap: 0.3rem;
+      margin-top: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    .mc-tag {
+      font-size: 0.65rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      color: #888;
+      background: var(--dark3);
+    }
+
+    .mc-tag.new {
+      border-color: rgba(6, 214, 160, 0.3);
+      color: var(--teal);
+      background: rgba(6, 214, 160, 0.08);
+    }
+
+    .mc-tag.hot {
+      border-color: rgba(232, 0, 29, 0.3);
+      color: #FF6B6B;
+      background: rgba(232, 0, 29, 0.08);
+    }
+
+    .mc-tag.anime {
+      border-color: rgba(139, 92, 246, 0.3);
+      color: var(--purple);
+      background: rgba(139, 92, 246, 0.08);
+    }
+
+    /* ──── WIDE CARD (for shows/anime) ──── */
+    .wc {
+      flex-shrink: 0;
+      width: 260px;
+      cursor: pointer;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .wc:hover {
+      transform: translateY(-6px);
+    }
+
+    .wc:hover .wc-overlay {
+      opacity: 1;
+    }
+
+    .wc-poster {
+      border-radius: 14px;
+      overflow: hidden;
+      aspect-ratio: 16/9;
+      position: relative;
+      background: var(--dark3);
+      border: 1px solid var(--border);
+    }
+
+    .wc-img {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .wc-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s;
+    }
+
+    .wc:hover .wc-img img {
+      transform: scale(1.06);
+    }
+
+    .wc-img-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      background: linear-gradient(135deg, var(--dark3), var(--dark2));
+    }
+
+    .wc-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s;
+      border-radius: 14px;
+    }
+
+    .play-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      color: var(--dark);
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .play-btn:hover {
+      transform: scale(1.15);
+    }
+
+    .wc-badge-type {
+      position: absolute;
+      top: 0.5rem;
+      left: 0.5rem;
+      border-radius: 8px;
+      padding: 0.25rem 0.6rem;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .wc-badge-type.anime {
+      background: rgba(139, 92, 246, 0.8);
+      color: #fff;
+    }
+
+    .wc-badge-type.series {
+      background: rgba(6, 214, 160, 0.8);
+      color: #000;
+    }
+
+    .wc-badge-type.show {
+      background: rgba(255, 209, 102, 0.8);
+      color: #000;
+    }
+
+    .wc-badge-type.sports {
+      background: rgba(232, 0, 29, 0.9);
+      color: #fff;
+    }
+
+    .wc-ep {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      background: rgba(0, 0, 0, 0.75);
+      border-radius: 6px;
+      padding: 0.2rem 0.5rem;
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: #ddd;
+    }
+
+    .wc-info {
+      padding: 0.75rem 0.25rem 0;
+    }
+
+    .wc-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.875rem;
+      margin-bottom: 0.3rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .wc-meta {
+      font-size: 0.75rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* ──── OFFERS TICKER ──── */
+    .ticker-wrap {
+      background: linear-gradient(90deg, var(--dark2), var(--dark3), var(--dark2));
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 0;
+      overflow: hidden;
+    }
+
+    .ticker-inner {
+      display: flex;
+      gap: 1.5rem;
+      animation: ticker-scroll 35s linear infinite;
+      white-space: nowrap;
+    }
+
+    .ticker-inner:hover {
+      animation-play-state: paused;
+    }
+
+    @keyframes ticker-scroll {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.5rem 1rem;
+      font-size: 0.82rem;
+      color: #ccc;
+      transition: border-color 0.2s;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+
+    .ticker-item:hover {
+      border-color: rgba(255, 209, 102, 0.3);
+      color: var(--gold);
+    }
+
+    /* ──── CINEMA CARDS ──── */
+    .cinema-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      transition: all 0.3s;
+      cursor: pointer;
+      flex-shrink: 0;
+      width: 300px;
+    }
+
+    .cinema-card:hover {
+      border-color: rgba(6, 214, 160, 0.25);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    }
+
+    .cinema-img {
+      height: 140px;
+      background: linear-gradient(135deg, var(--dark3), var(--dark2));
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      overflow: hidden;
+    }
+
+    .cinema-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .cinema-img::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60%;
+      background: linear-gradient(to top, var(--card), transparent);
+    }
+
+    .cinema-info {
+      padding: 1rem 1.25rem;
+    }
+
+    .cinema-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .cinema-loc {
+      font-size: 0.78rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .cinema-amenities {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    .amenity {
+      font-size: 0.68rem;
+      padding: 0.2rem 0.55rem;
+      background: var(--dark3);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: #888;
+    }
+
+    .cinema-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 1rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .cinema-rating {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--teal);
+    }
+
+    /* ──── GENRES GRID ──── */
+    .genres-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 0.875rem;
+    }
+
+    .genre-card {
+      border-radius: 14px;
+      padding: 1.25rem;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .genre-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .genre-card:hover::before {
+      opacity: 1;
+    }
+
+    .genre-card:hover {
+      transform: translateY(-4px);
+      border-color: transparent;
+    }
+
+    .g-movies {
+      background: linear-gradient(135deg, rgba(232, 0, 29, 0.15), rgba(232, 0, 29, 0.05));
+    }
+
+    .g-movies:hover {
+      background: linear-gradient(135deg, rgba(232, 0, 29, 0.3), rgba(232, 0, 29, 0.1));
+      box-shadow: 0 12px 30px rgba(232, 0, 29, 0.2);
+    }
+
+    .g-anime {
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(139, 92, 246, 0.05));
+    }
+
+    .g-anime:hover {
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(139, 92, 246, 0.1));
+      box-shadow: 0 12px 30px rgba(139, 92, 246, 0.2);
+    }
+
+    .g-series {
+      background: linear-gradient(135deg, rgba(6, 214, 160, 0.15), rgba(6, 214, 160, 0.05));
+    }
+
+    .g-series:hover {
+      background: linear-gradient(135deg, rgba(6, 214, 160, 0.3), rgba(6, 214, 160, 0.1));
+      box-shadow: 0 12px 30px rgba(6, 214, 160, 0.2);
+    }
+
+    .g-sports {
+      background: linear-gradient(135deg, rgba(255, 209, 102, 0.15), rgba(255, 209, 102, 0.05));
+    }
+
+    .g-sports:hover {
+      background: linear-gradient(135deg, rgba(255, 209, 102, 0.3), rgba(255, 209, 102, 0.1));
+      box-shadow: 0 12px 30px rgba(255, 209, 102, 0.2);
+    }
+
+    .g-comedy {
+      background: linear-gradient(135deg, rgba(244, 114, 182, 0.15), rgba(244, 114, 182, 0.05));
+    }
+
+    .g-comedy:hover {
+      background: linear-gradient(135deg, rgba(244, 114, 182, 0.3), rgba(244, 114, 182, 0.1));
+      box-shadow: 0 12px 30px rgba(244, 114, 182, 0.2);
+    }
+
+    .g-horror {
+      background: linear-gradient(135deg, rgba(30, 10, 10, 0.5), rgba(50, 0, 0, 0.3));
+    }
+
+    .g-horror:hover {
+      background: linear-gradient(135deg, rgba(80, 0, 0, 0.5), rgba(50, 0, 0, 0.3));
+      box-shadow: 0 12px 30px rgba(100, 0, 0, 0.3);
+    }
+
+    .g-romance {
+      background: linear-gradient(135deg, rgba(244, 63, 94, 0.15), rgba(244, 63, 94, 0.05));
+    }
+
+    .g-romance:hover {
+      background: linear-gradient(135deg, rgba(244, 63, 94, 0.3), rgba(244, 63, 94, 0.1));
+    }
+
+    .g-action {
+      background: linear-gradient(135deg, rgba(249, 115, 22, 0.15), rgba(249, 115, 22, 0.05));
+    }
+
+    .g-action:hover {
+      background: linear-gradient(135deg, rgba(249, 115, 22, 0.3), rgba(249, 115, 22, 0.1));
+      box-shadow: 0 12px 30px rgba(249, 115, 22, 0.2);
+    }
+
+    .genre-emoji {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .genre-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.875rem;
+    }
+
+    .genre-count {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 0.25rem;
+    }
+
+    /* ──── APP DOWNLOAD BANNER ──── */
+    .app-banner {
+      background: linear-gradient(135deg, rgba(232, 0, 29, 0.08), rgba(139, 92, 246, 0.08));
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 24px;
+      padding: 3rem;
+      display: flex;
+      align-items: center;
+      gap: 3rem;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .app-banner::before {
+      content: '';
+      position: absolute;
+      right: -50px;
+      top: -50px;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(232, 0, 29, 0.1), transparent 70%);
+      pointer-events: none;
+    }
+
+    .app-text {
+      flex: 1;
+    }
+
+    .app-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.875rem;
+      font-weight: 900;
+      margin-bottom: 0.75rem;
+    }
+
+    .app-desc {
+      color: #9CA3AF;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    .app-store-btns {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .store-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: var(--dark3);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 0.875rem 1.5rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      color: #fff;
+    }
+
+    .store-btn:hover {
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .store-icon {
+      font-size: 1.5rem;
+    }
+
+    .store-text {}
+
+    .store-label {
+      font-size: 0.7rem;
+      color: #888;
+    }
+
+    .store-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .app-mockup {
+      font-size: 8rem;
+      opacity: 0.3;
+    }
+
+    /* ──── LOGIN PAGE ──── */
+    .auth-page {
+      min-height: 100vh;
+      padding-top: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 64px 1rem 3rem;
+      position: relative;
+    }
+
+    .auth-bg {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at 30% 50%, rgba(139, 92, 246, 0.08) 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 30%, rgba(232, 0, 29, 0.06) 0%, transparent 60%),
+        var(--dark);
+      z-index: -1;
+    }
+
+    .auth-container {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 4rem;
+      max-width: 900px;
+      width: 100%;
+      align-items: center;
+    }
+
+    .auth-left {}
+
+    .auth-brand {
+      font-family: 'Syne', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 900;
+      margin-bottom: 1rem;
+      display: block;
+      text-decoration: none;
+    }
+
+    .auth-tagline {
+      font-size: 1.05rem;
+      color: #aaa;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+
+    .auth-perks {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.875rem;
+    }
+
+    .auth-perks li {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: #ccc;
+      font-size: 0.925rem;
+    }
+
+    .perk-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.875rem;
+      flex-shrink: 0;
+    }
+
+    .auth-card {
+      background: rgba(22, 22, 34, 0.9);
+      backdrop-filter: blur(30px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      padding: 2.5rem;
+      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5);
+    }
+
+    .auth-logo {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .auth-logo a {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.75rem;
+      font-weight: 900;
+      text-decoration: none;
+    }
+
+    .auth-logo p {
+      font-size: 0.85rem;
+      color: #888;
+      margin-top: 0.25rem;
+    }
+
+    .auth-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: var(--dark3);
+      border-radius: 12px;
+      padding: 4px;
+      margin-bottom: 1.75rem;
+    }
+
+    .auth-tab {
+      text-align: center;
+      padding: 0.6rem;
+      border-radius: 9px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      color: #888;
+      font-family: 'Syne', sans-serif;
+    }
+
+    .auth-tab.active {
+      background: var(--dark);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #9CA3AF;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-input {
+      width: 100%;
+      background: var(--dark3);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.875rem 1rem;
+      font-size: 0.875rem;
+      color: #fff;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .form-input:focus {
+      border-color: rgba(232, 0, 29, 0.4);
+      box-shadow: 0 0 0 3px rgba(232, 0, 29, 0.08);
+    }
+
+    .form-input::placeholder {
+      color: #4B5563;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.875rem;
+    }
+
+    .form-link {
+      font-size: 0.8rem;
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .form-link:hover {
+      text-decoration: underline;
+    }
+
+    .form-between {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .submit-btn {
+      width: 100%;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      padding: 1rem;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 0.5rem;
+    }
+
+    .submit-btn:hover {
+      background: #c0001a;
+      box-shadow: 0 8px 30px rgba(232, 0, 29, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 0.875rem;
+      margin: 1.5rem 0;
+    }
+
+    .divider-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .divider-text {
+      font-size: 0.78rem;
+      color: #555;
+    }
+
+    .social-btns {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .social-btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: var(--dark3);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.75rem;
+      font-size: 0.82rem;
+      color: #ccc;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .social-btn:hover {
+      border-color: rgba(255, 255, 255, 0.15);
+      background: var(--dark4);
+    }
+
+    .auth-footer {
+      text-align: center;
+      font-size: 0.8rem;
+      color: #666;
+      margin-top: 1.5rem;
+    }
+
+    .auth-footer a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .auth-footer a:hover {
+      text-decoration: underline;
+    }
+
+    .checkbox-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+    }
+
+    .checkbox-row input {
+      margin-top: 2px;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+
+    .checkbox-row label {
+      font-size: 0.8rem;
+      color: #777;
+      line-height: 1.4;
+      cursor: pointer;
+    }
+
+    .checkbox-row a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .otp-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: var(--dark3);
+      border: 1px solid rgba(6, 214, 160, 0.25);
+      border-radius: 12px;
+      padding: 0.75rem;
+      font-size: 0.85rem;
+      color: var(--teal);
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 0.75rem;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .otp-btn:hover {
+      background: rgba(6, 214, 160, 0.08);
+    }
+
+    /* ──── FOOTER ──── */
+    footer {
+      background: var(--dark2);
+      border-top: 1px solid var(--border);
+      padding: 4rem 2rem 2rem;
+      margin-top: 4rem;
+    }
+
+    .footer-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    .footer-brand {}
+
+    .footer-logo {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.75rem;
+      font-weight: 900;
+      margin-bottom: 0.75rem;
+      display: block;
+      text-decoration: none;
+    }
+
+    .footer-desc {
+      font-size: 0.875rem;
+      color: #666;
+      line-height: 1.7;
+      max-width: 280px;
+      margin-bottom: 1.25rem;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .social-link {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--dark3);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.875rem;
+      color: #888;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+
+    .social-link:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .footer-col h4 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 1.25rem;
+      color: #ddd;
+    }
+
+    .footer-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.625rem;
+    }
+
+    .footer-col ul a {
+      font-size: 0.845rem;
+      color: #666;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-col ul a:hover {
+      color: #ddd;
+    }
+
+    .footer-bottom {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: #555;
+    }
+
+    /* ──── TOAST ──── */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--dark3);
+      border: 1px solid rgba(6, 214, 160, 0.3);
+      border-radius: 14px;
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.875rem;
+      z-index: 1000;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      max-width: 360px;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .toast-icon {
+      font-size: 1.1rem;
+    }
+
+    /* ──── ANIMATIONS ──── */
+    @keyframes fade-up {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-up {
+      animation: fade-up 0.5s ease forwards;
+    }
+
+    .fade-up-1 {
+      animation-delay: 0.1s;
+      opacity: 0;
+    }
+
+    .fade-up-2 {
+      animation-delay: 0.2s;
+      opacity: 0;
+    }
+
+    .fade-up-3 {
+      animation-delay: 0.3s;
+      opacity: 0;
+    }
+
+    .fade-up-4 {
+      animation-delay: 0.4s;
+      opacity: 0;
+    }
+
+    /* ──── FLOATING PARTICLES ──── */
+    .particle {
+      position: fixed;
+      pointer-events: none;
+      border-radius: 50%;
+      animation: particle-float linear infinite;
+      opacity: 0;
+    }
+
+    @keyframes particle-float {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+
+      10% {
+        opacity: 0.4;
+      }
+
+      90% {
+        opacity: 0.4;
+      }
+
+      100% {
+        transform: translateY(-20px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* ──── RESPONSIVE ──── */
+    @media(max-width: 900px) {
+      .hero-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .hero-right {
+        display: none;
+      }
+
+      .hero-btns {
+        justify-content: center;
+      }
+
+      .hero-stats {
+        justify-content: center;
+      }
+
+      .hero-categories {
+        justify-content: center;
+      }
+
+      .auth-container {
+        grid-template-columns: 1fr;
+      }
+
+      .auth-left {
+        display: none;
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .nav-search {
+        display: none;
+      }
+    }
+
+    /* ──── CATEGORY SECTION TABS ──── */
+    .cat-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-bottom: 2px;
+    }
+
+    .cat-tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .ct {
+      padding: 0.5rem 1.25rem;
+      border-radius: 100px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: #888;
+      white-space: nowrap;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .ct:hover {
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .ct.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    /* ──── WATCHLIST CARD ──── */
+    .watchlist-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.25rem;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .watchlist-card:hover {
+      border-color: rgba(139, 92, 246, 0.25);
+      background: var(--dark3);
+    }
+
+    .wl-thumb {
+      width: 50px;
+      height: 70px;
+      border-radius: 10px;
+      background: var(--dark3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .wl-info {
+      flex: 1;
+    }
+
+    .wl-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.875rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .wl-meta {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .wl-action {}
+
+    .remove-btn {
+      background: rgba(232, 0, 29, 0.1);
+      border: 1px solid rgba(232, 0, 29, 0.2);
+      border-radius: 8px;
+      padding: 0.4rem 0.75rem;
+      font-size: 0.75rem;
+      color: #FF6B6B;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .remove-btn:hover {
+      background: rgba(232, 0, 29, 0.2);
+    }
+
+    /* ──── PREMIERE BADGE ──── */
+    .premiere-card {
+      flex-shrink: 0;
+      width: 200px;
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .premiere-card:hover {
+      transform: translateY(-8px);
+    }
+
+    .premiere-poster {
+      border-radius: 16px;
+      aspect-ratio: 2/3;
+      position: relative;
+      overflow: hidden;
+      border: 2px solid rgba(255, 209, 102, 0.3);
+      background: var(--dark3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+    }
+
+    .premiere-glow {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(255, 209, 102, 0.15), transparent 60%);
+    }
+
+    .premiere-info {
+      padding: 0.75rem 0.25rem;
+    }
+
+    .premiere-date {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      background: rgba(255, 209, 102, 0.1);
+      border: 1px solid rgba(255, 209, 102, 0.25);
+      border-radius: 8px;
+      padding: 0.2rem 0.6rem;
+      font-size: 0.7rem;
+      color: var(--gold);
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+
+    .premiere-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 0.875rem;
+    }
+
+    /* ──── INPUT ICONS ──── */
+    .input-wrap {
+      position: relative;
+    }
+
+    .input-wrap i {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #4B5563;
+      font-size: 0.9rem;
+    }
+
+    .input-wrap .form-input {
+      padding-left: 2.75rem;
+    }
+
+    .input-wrap .eye-btn {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #4B5563;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+
+    .input-wrap .eye-btn:hover {
+      color: #888;
+    }
+
+    /* ──── PROGRESS BAR ──── */
+    .strength-bar {
+      height: 3px;
+      border-radius: 2px;
+      margin-top: 0.4rem;
+      background: var(--dark3);
+      overflow: hidden;
+    }
+
+    .strength-fill {
+      height: 100%;
+      border-radius: 2px;
+      transition: width 0.3s, background 0.3s;
+      background: var(--teal);
+      width: 0;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ══════════════════════════════════════
+     FLOATING PARTICLES
+════════════════════════════════════════ -->
+  <div id="particles"></div>
+
+  <!-- ══════════════════════════════════════
+     NAVBAR
+════════════════════════════════════════ -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="#" class="logo" onclick="showPage('home')">
+        <span class="grad-text">Goo</span><span class="gold-text">Booking</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#" class="active" onclick="showPage('home'); markActive(this)">
+            <i class="fas fa-home"></i> Home
+          </a></li>
+        <li><a href="#" onclick="showPage('home'); markActive(this)">
+            <i class="fas fa-film"></i> Movies
+          </a></li>
+        <li><a href="#" onclick="showPage('home'); markActive(this)">
+            <i class="fas fa-dragon"></i> Anime <span class="badge">NEW</span>
+          </a></li>
+        <li><a href="#" onclick="showPage('home'); markActive(this)">
+            <i class="fas fa-tv"></i> Web Series
+          </a></li>
+        <li><a href="#" onclick="showPage('home'); markActive(this)">
+            <i class="fas fa-masks-theater"></i> Shows
+          </a></li>
+        <li><a href="#" onclick="showPage('home'); markActive(this)">
+            <i class="fas fa-bolt"></i> Sports
+          </a></li>
+        <li><a href="#" onclick="showPage('home'); markActive(this)">
+            <i class="fas fa-building"></i> Cinemas
+          </a></li>
+      </ul>
+
+      <div class="nav-search">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Movies, Anime, Shows…">
+      </div>
+
+      <div class="nav-actions">
+        <button class="city-btn" onclick="toast('📍 City Selector Opening…', 'teal')">
+          <i class="fas fa-map-marker-alt" style="color:var(--primary)"></i>
+          Indore
+          <i class="fas fa-chevron-down" style="font-size:0.65rem; color:#666"></i>
+        </button>
+        <a class="btn-primary" href="#" onclick="showPage('login'); return false;">Sign In</a>
+        <div class="avatar" onclick="toast('👤 Profile coming soon!', 'purple')">SN</div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ══════════════════════════════════════
+     HOME PAGE
+════════════════════════════════════════ -->
+  <div id="page-home" class="page active">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-bg"></div>
+      <div class="hero-grid"></div>
+      <div class="hero-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+      </div>
+
+      <div class="hero-content">
+        <div class="hero-left">
+          <div class="hero-badge fade-up fade-up-1">
+            <span></span>
+            India's #1 Entertainment Booking
+          </div>
+          <h1 class="hero-title fade-up fade-up-2">
+            Movies, Anime,<br>
+            Shows &amp; <span class="grad-text">More</span><br>
+            <span style="color:var(--gold)">All in One Place</span>
+          </h1>
+          <p class="hero-desc fade-up fade-up-3">
+            Book tickets for Movies, Anime Screenings, Web Series Premiere, Comedy Shows, Live Sports &amp; Concerts
+            across 650+ cities.
+          </p>
+          <div class="hero-btns fade-up fade-up-4">
+            <a href="#now-showing" class="btn-hero-primary">
+              <i class="fas fa-ticket-alt"></i> Book Now
+            </a>
+            <a href="#" class="btn-hero-secondary" onclick="toast('🎬 Exploring all content!', 'teal'); return false;">
+              <i class="fas fa-play"></i> Browse All
+            </a>
+          </div>
+
+          <div class="hero-categories fade-up fade-up-4">
+            <a href="#" class="cat-pill active" onclick="toast('🎬 Movies selected!', 'red')"><i
+                class="fas fa-film"></i> Movies</a>
+            <a href="#" class="cat-pill anime" onclick="toast('🐉 Anime section!', 'purple')"><i
+                class="fas fa-dragon"></i> Anime</a>
+            <a href="#" class="cat-pill shows" onclick="toast('📺 Web Series section!', 'teal')"><i
+                class="fas fa-tv"></i> Web Series</a>
+            <a href="#" class="cat-pill comedy" onclick="toast('😂 Comedy Shows!', 'pink')"><i
+                class="fas fa-masks-theater"></i> Comedy</a>
+            <a href="#" class="cat-pill sports" onclick="toast('⚡ Live Sports!', 'gold')"><i class="fas fa-bolt"></i>
+              Sports</a>
+          </div>
+
+          <div class="hero-stats fade-up fade-up-4" style="margin-top:2.5rem">
+            <div class="stat">
+              <div class="stat-num grad-text">650+</div>
+              <div class="stat-label">Cities</div>
+            </div>
+            <div class="stat">
+              <div class="stat-num gold-text">10M+</div>
+              <div class="stat-label">Happy Users</div>
+            </div>
+            <div class="stat">
+              <div class="stat-num teal-text">5000+</div>
+              <div class="stat-label">Cinemas</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-right">
+          <div class="card-stack-1">🎌</div>
+          <div class="card-stack-2">📺</div>
+          <div class="featured-card">
+            <div class="featured-card-img">
+              🎬
+              <div
+                style="position:absolute;inset:0;background:linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.98))">
+              </div>
+            </div>
+            <div class="featured-card-info">
+              <div class="featured-card-title">Kalki 2898 AD</div>
+              <div class="featured-card-meta">
+                <span style="color:var(--gold)">⭐ 8.7</span>
+                <span>•</span>
+                <span>UA</span>
+                <span>•</span>
+                <span>3h 1m</span>
+              </div>
+              <button class="mc-book-btn" style="width:100%;padding:0.625rem;border-radius:10px;font-size:0.8rem">🎟️
+                Book Tickets</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OFFERS TICKER -->
+    <div class="ticker-wrap">
+      <div class="ticker-inner">
+        <div class="ticker-item">💳 HDFC Bank – 20% off up to ₹200</div>
+        <div class="ticker-item">📱 GooPay Wallet – ₹50 Cashback</div>
+        <div class="ticker-item">🎓 Student Offer – 15% off every show</div>
+        <div class="ticker-item">🌟 Tuesday Special – Buy 2 Get 1 FREE</div>
+        <div class="ticker-item">💎 GooInsider – Early Access + Exclusive Offers</div>
+        <div class="ticker-item">🏦 SBI Card – 10% Instant Discount</div>
+        <div class="ticker-item">🎌 Anime Festival – 25% off on all screenings</div>
+        <div class="ticker-item">🎭 Comedy Night – ₹100 off on 4 tickets</div>
+        <!-- duplicate for infinite scroll -->
+        <div class="ticker-item">💳 HDFC Bank – 20% off up to ₹200</div>
+        <div class="ticker-item">📱 GooPay Wallet – ₹50 Cashback</div>
+        <div class="ticker-item">🎓 Student Offer – 15% off every show</div>
+        <div class="ticker-item">🌟 Tuesday Special – Buy 2 Get 1 FREE</div>
+        <div class="ticker-item">💎 GooInsider – Early Access + Exclusive Offers</div>
+        <div class="ticker-item">🏦 SBI Card – 10% Instant Discount</div>
+        <div class="ticker-item">🎌 Anime Festival – 25% off on all screenings</div>
+        <div class="ticker-item">🎭 Comedy Night – ₹100 off on 4 tickets</div>
+      </div>
+    </div>
+
+    <!-- BROWSE BY CATEGORY -->
+    <div class="section">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Browse by <span class="grad-text">Category</span></h2>
+          <p class="section-subtitle">Find what you're in the mood for</p>
+        </div>
+      </div>
+      <div class="genres-grid">
+        <div class="genre-card g-movies" onclick="toast('🎬 Movies category!', 'red')">
+          <span class="genre-emoji">🎬</span>
+          <div class="genre-name">Movies</div>
+          <div class="genre-count">240+ Now Showing</div>
+        </div>
+        <div class="genre-card g-anime" onclick="toast('🎌 Anime Screenings!', 'purple')">
+          <span class="genre-emoji">🎌</span>
+          <div class="genre-name">Anime</div>
+          <div class="genre-count">48 Screenings</div>
+        </div>
+        <div class="genre-card g-series" onclick="toast('📺 Web Series!', 'teal')">
+          <span class="genre-emoji">📺</span>
+          <div class="genre-name">Web Series</div>
+          <div class="genre-count">120+ Titles</div>
+        </div>
+        <div class="genre-card g-sports" onclick="toast('⚡ Live Sports!', 'gold')">
+          <span class="genre-emoji">⚡</span>
+          <div class="genre-name">Sports</div>
+          <div class="genre-count">Live Events</div>
+        </div>
+        <div class="genre-card g-comedy" onclick="toast('😂 Comedy Shows!', 'pink')">
+          <span class="genre-emoji">😂</span>
+          <div class="genre-name">Comedy</div>
+          <div class="genre-count">32 Shows</div>
+        </div>
+        <div class="genre-card g-horror" onclick="toast('👻 Horror Films!', 'red')">
+          <span class="genre-emoji">👻</span>
+          <div class="genre-name">Horror</div>
+          <div class="genre-count">15 New</div>
+        </div>
+        <div class="genre-card g-romance" onclick="toast('❤️ Romance!', 'pink')">
+          <span class="genre-emoji">❤️</span>
+          <div class="genre-name">Romance</div>
+          <div class="genre-count">56 Titles</div>
+        </div>
+        <div class="genre-card g-action" onclick="toast('💥 Action!', 'orange')">
+          <span class="genre-emoji">💥</span>
+          <div class="genre-name">Action</div>
+          <div class="genre-count">88 Titles</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NOW SHOWING -->
+    <div class="section" id="now-showing">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Now <span class="grad-text">Showing</span></h2>
+          <p class="section-subtitle">Book tickets for the latest blockbusters in Indore</p>
+        </div>
+        <a href="#" class="see-all" onclick="toast('Showing all movies!', 'red'); return false;">See All <i
+            class="fas fa-arrow-right"></i></a>
+      </div>
+      <div class="cat-tabs">
+        <button class="ct active">All</button>
+        <button class="ct">Hindi</button>
+        <button class="ct">English</button>
+        <button class="ct">Tamil</button>
+        <button class="ct">Telugu</button>
+        <button class="ct">Malayalam</button>
+        <button class="ct">Action</button>
+        <button class="ct">Comedy</button>
+        <button class="ct">Thriller</button>
+      </div>
+      <div class="scroll-row" id="movies-row">
+        <!-- Cards generated by JS -->
+      </div>
+    </div>
+
+    <!-- ANIME SCREENINGS -->
+    <div style="background: linear-gradient(180deg, transparent, rgba(139,92,246,0.05), transparent)">
+      <div class="section">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title"><span class="purple-text">Anime</span> Screenings <span
+                style="font-size:1.3rem">🎌</span></h2>
+            <p class="section-subtitle">Watch your favourite anime on the big screen</p>
+          </div>
+          <a href="#" class="see-all" style="color:var(--purple)"
+            onclick="toast('All Anime!', 'purple'); return false;">See All <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="scroll-row" id="anime-row"></div>
+      </div>
+    </div>
+
+    <!-- WEB SERIES / STREAMING EVENTS -->
+    <div class="section">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Web Series <span class="teal-text">Premieres</span> 📺</h2>
+          <p class="section-subtitle">Be the first to watch at exclusive screening events</p>
+        </div>
+        <a href="#" class="see-all" style="color:var(--teal)"
+          onclick="toast('All Web Series!', 'teal'); return false;">See All <i class="fas fa-arrow-right"></i></a>
+      </div>
+      <div class="scroll-row" id="series-row"></div>
+    </div>
+
+    <!-- COMEDY & LIVE SHOWS -->
+    <div style="background: linear-gradient(180deg, transparent, rgba(244,114,182,0.04), transparent)">
+      <div class="section">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">Comedy &amp; Live <span style="color:var(--pink)">Shows</span> 😂</h2>
+            <p class="section-subtitle">Stand-up, drama, magic and more</p>
+          </div>
+          <a href="#" class="see-all" style="color:var(--pink)" onclick="toast('All Shows!', 'pink'); return false;">See
+            All <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="scroll-row" id="shows-row"></div>
+      </div>
+    </div>
+
+    <!-- UPCOMING PREMIERES -->
+    <div class="section">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Coming <span class="gold-text">Soon</span> ✨</h2>
+          <p class="section-subtitle">Pre-book seats for the most awaited releases</p>
+        </div>
+        <a href="#" class="see-all" style="color:var(--gold)"
+          onclick="toast('All Upcoming!', 'gold'); return false;">See All <i class="fas fa-arrow-right"></i></a>
+      </div>
+      <div class="scroll-row" id="upcoming-row"></div>
+    </div>
+
+    <!-- SPORTS -->
+    <div style="background: linear-gradient(180deg, transparent, rgba(255,209,102,0.04), transparent)">
+      <div class="section">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">Live <span class="gold-text">Sports</span> ⚡</h2>
+            <p class="section-subtitle">IPL, Pro Kabaddi, Football &amp; more</p>
+          </div>
+          <a href="#" class="see-all" style="color:var(--gold)"
+            onclick="toast('All Sports!', 'gold'); return false;">See All <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="scroll-row" id="sports-row"></div>
+      </div>
+    </div>
+
+    <!-- POPULAR CINEMAS -->
+    <div class="section">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Top Cinemas in <span class="teal-text">Indore</span></h2>
+          <p class="section-subtitle">Best multiplexes near you</p>
+        </div>
+        <a href="#" class="see-all" onclick="toast('All cinemas!', 'teal'); return false;">See All <i
+            class="fas fa-arrow-right"></i></a>
+      </div>
+      <div class="scroll-row" id="cinema-row"></div>
+    </div>
+
+    <!-- APP DOWNLOAD -->
+    <div class="section">
+      <div class="app-banner">
+        <div class="app-text">
+          <h2 class="app-title">Download the <span class="gold-text">GooBooking</span> App</h2>
+          <p class="app-desc">Book tickets in seconds. Get exclusive app-only offers, flash sales, and track all your
+            bookings on the go. Available for iOS &amp; Android.</p>
+          <div class="app-store-btns">
+            <a href="#" class="store-btn" onclick="toast('📱 App Store opening!', 'gold'); return false;">
+              <span class="store-icon"><i class="fab fa-apple"></i></span>
+              <div class="store-text">
+                <div class="store-label">Download on</div>
+                <div class="store-name">App Store</div>
+              </div>
+            </a>
+            <a href="#" class="store-btn" onclick="toast('📱 Play Store opening!', 'teal'); return false;">
+              <span class="store-icon"><i class="fab fa-google-play"></i></span>
+              <div class="store-text">
+                <div class="store-label">Get it on</div>
+                <div class="store-name">Google Play</div>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="app-mockup">📱</div>
+      </div>
+    </div>
+
+  </div><!-- /home page -->
+
+  <!-- ══════════════════════════════════════
+     LOGIN PAGE
+════════════════════════════════════════ -->
+  <div id="page-login" class="page">
+    <div class="auth-bg"></div>
+    <div class="auth-page">
+      <div class="auth-container">
+        <div class="auth-left">
+          <a href="#" class="auth-brand" onclick="showPage('home'); return false;">
+            <span class="grad-text">Goo</span><span class="gold-text">Booking</span>
+          </a>
+          <p class="auth-tagline">Your one-stop destination for Movies, Anime, Web Series, Shows, Sports &amp; more
+            across India.</p>
+          <ul class="auth-perks">
+            <li>
+              <div class="perk-icon" style="background:rgba(232,0,29,0.15)">🎬</div>
+              Book movies, anime screenings &amp; live events
+            </li>
+            <li>
+              <div class="perk-icon" style="background:rgba(139,92,246,0.15)">⚡</div>
+              Exclusive member-only offers &amp; early access
+            </li>
+            <li>
+              <div class="perk-icon" style="background:rgba(6,214,160,0.15)">💰</div>
+              GooPay wallet cashback on every booking
+            </li>
+            <li>
+              <div class="perk-icon" style="background:rgba(255,209,102,0.15)">🎁</div>
+              Birthday &amp; anniversary surprises
+            </li>
+            <li>
+              <div class="perk-icon" style="background:rgba(244,114,182,0.15)">📱</div>
+              Manage bookings &amp; e-tickets on mobile
+            </li>
+          </ul>
+        </div>
+
+        <div class="auth-card">
+          <div class="auth-logo">
+            <a href="#" onclick="showPage('home'); return false;"><span class="grad-text">Goo</span><span
+                class="gold-text">Booking</span></a>
+            <p>Sign in to continue</p>
+          </div>
+
+          <div class="auth-tabs">
+            <a href="#" class="auth-tab active" onclick="return false;">Login</a>
+            <a href="#" class="auth-tab" onclick="showPage('register'); return false;">Register</a>
+          </div>
+
+          <form onsubmit="handleLogin(event)">
+            <div class="form-group">
+              <label class="form-label">Email Address</label>
+              <div class="input-wrap">
+                <i class="fas fa-envelope"></i>
+                <input type="email" class="form-input" placeholder="you@example.com" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="form-between">
+                <label class="form-label" style="margin-bottom:0">Password</label>
+                <a href="#" class="form-link">Forgot password?</a>
+              </div>
+              <div class="input-wrap" style="margin-top:0.5rem">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="login-pass" class="form-input" placeholder="••••••••" required>
+                <button type="button" class="eye-btn" onclick="togglePass('login-pass', this)"><i
+                    class="fas fa-eye"></i></button>
+              </div>
+            </div>
+
+            <button type="submit" class="submit-btn">Sign In</button>
+          </form>
+
+          <button class="otp-btn" onclick="toast('📱 OTP sent to your mobile!', 'teal')">
+            <i class="fas fa-mobile-alt"></i> Login with OTP
+          </button>
+
+          <div class="divider">
+            <div class="divider-line"></div>
+            <span class="divider-text">or continue with</span>
+            <div class="divider-line"></div>
+          </div>
+
+          <div class="social-btns">
+            <a href="#" class="social-btn" onclick="toast('🔵 Google login!', 'blue'); return false;">
+              <svg width="16" height="16" viewBox="0 0 24 24">
+                <path fill="#4285F4"
+                  d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                <path fill="#34A853"
+                  d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                <path fill="#FBBC05"
+                  d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" />
+                <path fill="#EA4335"
+                  d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+              </svg>
+              Google
+            </a>
+            <a href="#" class="social-btn" onclick="toast('📘 Facebook login!', 'blue'); return false;">
+              <i class="fab fa-facebook-f" style="color:#1877F2"></i> Facebook
+            </a>
+          </div>
+
+          <p class="auth-footer">
+            Don't have an account?
+            <a href="#" onclick="showPage('register'); return false;">Create one free</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+     REGISTER PAGE
+════════════════════════════════════════ -->
+  <div id="page-register" class="page">
+    <div class="auth-bg"></div>
+    <div class="auth-page">
+      <div class="auth-container">
+        <div class="auth-left">
+          <a href="#" class="auth-brand" onclick="showPage('home'); return false;">
+            <span class="grad-text">Goo</span><span class="gold-text">Booking</span>
+          </a>
+          <p class="auth-tagline">Join 10 million+ users booking movies, anime, web series and live events across India.
+          </p>
+          <ul class="auth-perks">
+            <li>
+              <div class="perk-icon" style="background:rgba(232,0,29,0.15)">🎟️</div> Free e-tickets on every booking
+            </li>
+            <li>
+              <div class="perk-icon" style="background:rgba(255,209,102,0.15)">💰</div> ₹100 welcome bonus in GooPay
+              wallet
+            </li>
+            <li>
+              <div class="perk-icon" style="background:rgba(139,92,246,0.15)">🎌</div> Access to anime exclusive
+              screenings
+            </li>
+            <li>
+              <div class="perk-icon" style="background:rgba(6,214,160,0.15)">🔔</div> Alerts for new releases &amp;
+              offers
+            </li>
+            <li>
+              <div class="perk-icon" style="background:rgba(244,114,182,0.15)">🌟</div> GooInsider loyalty points
+              program
+            </li>
+          </ul>
+        </div>
+
+        <div class="auth-card">
+          <div class="auth-logo">
+            <a href="#" onclick="showPage('home'); return false;"><span class="grad-text">Goo</span><span
+                class="gold-text">Booking</span></a>
+            <p>Create your free account</p>
+          </div>
+
+          <div class="auth-tabs">
+            <a href="#" class="auth-tab" onclick="showPage('login'); return false;">Login</a>
+            <a href="#" class="auth-tab active" onclick="return false;">Register</a>
+          </div>
+
+          <form onsubmit="handleRegister(event)">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">First Name</label>
+                <div class="input-wrap">
+                  <i class="fas fa-user"></i>
+                  <input type="text" class="form-input" placeholder="Shubham" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Last Name</label>
+                <input type="text" class="form-input" placeholder="Narware" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Email Address</label>
+              <div class="input-wrap">
+                <i class="fas fa-envelope"></i>
+                <input type="email" class="form-input" placeholder="you@example.com" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Mobile Number</label>
+              <div class="input-wrap">
+                <i class="fas fa-phone"></i>
+                <input type="tel" class="form-input" placeholder="+91 98765 43210">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Password</label>
+              <div class="input-wrap">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="reg-pass" class="form-input" placeholder="Min 8 characters" required
+                  oninput="checkStrength(this)">
+                <button type="button" class="eye-btn" onclick="togglePass('reg-pass', this)"><i
+                    class="fas fa-eye"></i></button>
+              </div>
+              <div class="strength-bar">
+                <div class="strength-fill" id="strength-fill"></div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Confirm Password</label>
+              <div class="input-wrap">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="reg-pass2" class="form-input" placeholder="Repeat password" required>
+                <button type="button" class="eye-btn" onclick="togglePass('reg-pass2', this)"><i
+                    class="fas fa-eye"></i></button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="checkbox-row">
+                <input type="checkbox" id="terms" required>
+                <label for="terms">
+                  I agree to GooBooking's <a href="#">Terms &amp; Conditions</a> and <a href="#">Privacy Policy</a>
+                </label>
+              </div>
+            </div>
+
+            <button type="submit" class="submit-btn">Create Account — It's Free!</button>
+          </form>
+
+          <div class="divider">
+            <div class="divider-line"></div>
+            <span class="divider-text">or sign up with</span>
+            <div class="divider-line"></div>
+          </div>
+
+          <a href="#" class="social-btn" style="width:100%;justify-content:center"
+            onclick="toast('🔵 Google signup!', 'blue'); return false;">
+            <svg width="18" height="18" viewBox="0 0 24 24">
+              <path fill="#4285F4"
+                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+              <path fill="#34A853"
+                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+              <path fill="#FBBC05"
+                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" />
+              <path fill="#EA4335"
+                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+            </svg>
+            Continue with Google
+          </a>
+
+          <p class="auth-footer">
+            Already have an account?
+            <a href="#" onclick="showPage('login'); return false;">Sign in</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+     FOOTER
+════════════════════════════════════════ -->
+  <footer id="main-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a class="footer-logo" href="#" onclick="showPage('home'); return false;"><span
+            class="grad-text">Goo</span><span class="gold-text">Booking</span></a>
+        <p class="footer-desc">India's most loved entertainment booking platform. Movies, Anime, Web Series, Comedy,
+          Sports &amp; more across 650+ cities.</p>
+        <div class="social-links">
+          <a class="social-link" href="#"><i class="fab fa-instagram"></i></a>
+          <a class="social-link" href="#"><i class="fab fa-twitter"></i></a>
+          <a class="social-link" href="#"><i class="fab fa-facebook-f"></i></a>
+          <a class="social-link" href="#"><i class="fab fa-youtube"></i></a>
+          <a class="social-link" href="#"><i class="fab fa-discord"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Entertainment</h4>
+        <ul>
+          <li><a href="#">Movies</a></li>
+          <li><a href="#">Anime Screenings</a></li>
+          <li><a href="#">Web Series</a></li>
+          <li><a href="#">Comedy Shows</a></li>
+          <li><a href="#">Live Sports</a></li>
+          <li><a href="#">Concerts</a></li>
+          <li><a href="#">Theatre Plays</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Account</h4>
+        <ul>
+          <li><a href="#" onclick="showPage('login'); return false;">Sign In</a></li>
+          <li><a href="#" onclick="showPage('register'); return false;">Register</a></li>
+          <li><a href="#">My Bookings</a></li>
+          <li><a href="#">Wishlist</a></li>
+          <li><a href="#">GooPay Wallet</a></li>
+          <li><a href="#">GooInsider</a></li>
+          <li><a href="#">Refer &amp; Earn</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Help &amp; Info</h4>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press</a></li>
+          <li><a href="#">Terms &amp; Conditions</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Sitemap</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 GooBooking. All rights reserved. Made with ❤️ in India 🇮🇳</span>
+      <span>GSTIN: 23AAABG1234M1Z5</span>
+    </div>
+  </footer>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast">
+    <span class="toast-icon" id="toast-icon">✅</span>
+    <span id="toast-msg">Action completed!</span>
+  </div>
+
+  <script>
+    // ─── DATA ───────────────────────────────────────────────────────────────
+    const MOVIES = [
+      { title: 'Kalki 2898 AD', genre: 'Sci-Fi • Action', emoji: '🌌', rating: 8.7, cert: 'UA', tag: 'hot', lang: 'Hindi' },
+      { title: 'Stree 2', genre: 'Horror • Comedy', emoji: '👻', rating: 8.9, cert: 'UA', tag: 'hot', lang: 'Hindi' },
+      { title: 'Pushpa 2', genre: 'Action • Drama', emoji: '🔥', rating: 8.4, cert: 'A', tag: 'hot', lang: 'Telugu' },
+      { title: 'Animal', genre: 'Action • Crime', emoji: '🦁', rating: 7.8, cert: 'A', tag: '', lang: 'Hindi' },
+      { title: 'Dune Part 2', genre: 'Sci-Fi • Epic', emoji: '🏜️', rating: 8.5, cert: 'UA', tag: 'new', lang: 'English' },
+      { title: 'Deadpool & Wolverine', genre: 'Action • Comedy', emoji: '⚔️', rating: 8.0, cert: 'A', tag: 'new', lang: 'English' },
+      { title: 'Jawan', genre: 'Action • Thriller', emoji: '🎯', rating: 7.4, cert: 'UA', tag: '', lang: 'Hindi' },
+      { title: 'Fighter', genre: 'Action • War', emoji: '✈️', rating: 7.2, cert: 'UA', tag: '', lang: 'Hindi' },
+    ];
+    const ANIME = [
+      { title: 'Demon Slayer: Kimetsu no Yaiba', genre: 'Action • Fantasy', emoji: '🗡️', rating: 9.1, ep: 'Season 4', tag: 'anime' },
+      { title: 'Jujutsu Kaisen 0', genre: 'Dark Fantasy', emoji: '🖤', rating: 8.8, ep: 'Movie', tag: 'anime' },
+      { title: 'My Hero Academia', genre: 'Superhero', emoji: '🦸', rating: 8.6, ep: 'Season 7', tag: 'anime' },
+      { title: 'Dragon Ball DAIMA', genre: 'Adventure', emoji: '🐉', rating: 8.2, ep: 'New', tag: 'anime' },
+      { title: 'Naruto: Road of Ninja', genre: 'Adventure • Action', emoji: '🍃', rating: 8.0, ep: 'Film', tag: 'anime' },
+      { title: 'Attack on Titan: Final', genre: 'Dark Fantasy', emoji: '⚡', rating: 9.3, ep: 'Final Arc', tag: 'anime' },
+    ];
+    const SERIES = [
+      { title: 'Mirzapur Season 3', genre: 'Crime • Thriller', emoji: '🔫', rating: 8.5, ep: 'S3', type: 'series' },
+      { title: 'Panchayat Season 4', genre: 'Comedy • Drama', emoji: '🏘️', rating: 9.1, ep: 'S4', type: 'series' },
+      { title: 'The Family Man S3', genre: 'Action • Spy', emoji: '🕵️', rating: 8.9, ep: 'S3', type: 'series' },
+      { title: 'Sacred Games', genre: 'Crime • Noir', emoji: '🃏', rating: 8.7, ep: 'S2', type: 'series' },
+      { title: 'Squid Game S2', genre: 'Thriller • Horror', emoji: '🎮', rating: 8.3, ep: 'S2', type: 'series' },
+      { title: 'House of the Dragon', genre: 'Fantasy • Drama', emoji: '🐉', rating: 8.6, ep: 'S2', type: 'series' },
+    ];
+    const SHOWS = [
+      { title: 'Zakir Khan Live', genre: 'Stand-up Comedy', emoji: '🎤', rating: 9.4, ep: 'Indore Leg', type: 'show' },
+      { title: 'Kenny Sebastian', genre: 'Stand-up Comedy', emoji: '😂', rating: 9.1, ep: 'Tour 2025', type: 'show' },
+      { title: 'Vir Das World Tour', genre: 'Comedy', emoji: '🌍', rating: 8.9, ep: 'WORLD', type: 'show' },
+      { title: 'Kanan Gill Special', genre: 'Comedy', emoji: '🎭', rating: 8.7, ep: 'Special', type: 'show' },
+      { title: 'Rajastan Kabaddi League', genre: 'Sports Show', emoji: '🏟️', rating: 8.0, ep: 'Live', type: 'sports' },
+      { title: 'Magic of Mind Show', genre: 'Magic • Live', emoji: '🎩', rating: 8.5, ep: 'Illusion', type: 'show' },
+    ];
+    const UPCOMING = [
+      { title: 'Singham Returns 3', genre: 'Action', emoji: '🦁', date: '15 Feb 2025', cert: 'UA' },
+      { title: 'Devara Part 2', genre: 'Action • Drama', emoji: '🌊', date: '21 Mar 2025', cert: 'UA' },
+      { title: 'Chhava', genre: 'Historical', emoji: '⚔️', date: '14 Feb 2025', cert: 'UA' },
+      { title: 'Avengers: Secret Wars', genre: 'Superhero', emoji: '🦸', date: 'May 2025', cert: 'PG' },
+      { title: 'Ramayana', genre: 'Mythological', emoji: '🏹', date: 'TBA 2025', cert: 'U' },
+      { title: 'The Batman Part 2', genre: 'Action', emoji: '🦇', date: 'Oct 2025', cert: 'PG' },
+    ];
+    const SPORTS = [
+      { title: 'IPL 2025 — MI vs CSK', genre: 'Cricket', emoji: '🏏', rating: null, ep: 'Mar 22', type: 'sports' },
+      { title: 'Pro Kabaddi League', genre: 'Kabaddi', emoji: '🤼', rating: null, ep: 'Live', type: 'sports' },
+      { title: 'ISL Football — MCFC', genre: 'Football', emoji: '⚽', rating: null, ep: 'Mar 25', type: 'sports' },
+      { title: 'BWF India Open', genre: 'Badminton', emoji: '🏸', rating: null, ep: 'Apr 3', type: 'sports' },
+      { title: 'WWE Elimination Chamber', genre: 'Wrestling', emoji: '🥊', rating: null, ep: 'Live', type: 'sports' },
+      { title: 'PKL Season 11 Final', genre: 'Kabaddi', emoji: '🏆', rating: null, ep: 'Final', type: 'sports' },
+    ];
+    const CINEMAS = [
+      { name: 'PVR ICON — C21 Mall', loc: 'AB Road, Indore', emoji: '🎬', rating: 4.6, amens: ['4K', 'Dolby Atmos', 'IMAX', 'Recliner'] },
+      { name: 'INOX Treasure Island', loc: 'MG Road, Indore', emoji: '🎥', rating: 4.4, amens: ['4DX', 'MX4D', 'Food Court', 'Bar'] },
+      { name: 'Cinepolis Fun Republic', loc: 'Vijay Nagar, Indore', emoji: '🎞️', rating: 4.3, amens: ['VIP', 'Dolby', 'Parking', 'Café'] },
+      { name: 'PVR DB City', loc: 'Hoshangabad Road, Bhopal', emoji: '🎦', rating: 4.5, amens: ['IMAX', '4K', 'Recliner'] },
+    ];
+
+    // ─── RENDER FUNCTIONS ────────────────────────────────────────────────────
+
+    function movieCard(m) {
+      return `
+  <div class="mc" onclick="toast('🎟️ Booking ${m.title}…', 'red')">
+    <div class="mc-poster">
+      <div class="mc-img">
+        <div class="mc-img-placeholder">${m.emoji}</div>
+      </div>
+      <div class="mc-overlay">
+        <button class="mc-book-btn">🎟️ Book Now</button>
+      </div>
+      <div class="mc-badge"><span>⭐</span> ${m.rating}</div>
+      <div class="mc-cert">${m.cert}</div>
+    </div>
+    <div class="mc-info">
+      <div class="mc-title">${m.title}</div>
+      <div class="mc-genre">${m.genre}</div>
+      <div class="mc-tags">
+        <span class="mc-tag">${m.lang}</span>
+        ${m.tag ? `<span class="mc-tag ${m.tag}">${m.tag === 'hot' ? '🔥 Hot' : '✨ New'}</span>` : ''}
+      </div>
+    </div>
+  </div>`;
+    }
+
+    function wideCard(m) {
+      const typeLabel = m.type === 'anime' ? 'anime' : m.type === 'series' ? 'series' : m.type === 'sports' ? 'sports' : 'show';
+      const typeText = m.type === 'anime' ? 'Anime' : m.type === 'series' ? 'Series' : m.type === 'sports' ? 'Sports' : 'Show';
+      return `
+  <div class="wc" onclick="toast('▶️ Opening ${m.title}…', 'purple')">
+    <div class="wc-poster">
+      <div class="wc-img">
+        <div class="wc-img-placeholder">${m.emoji}</div>
+      </div>
+      <div class="wc-overlay">
+        <button class="play-btn"><i class="fas fa-play" style="margin-left:3px"></i></button>
+      </div>
+      <span class="wc-badge-type ${typeLabel}">${typeText}</span>
+      <span class="wc-ep">${m.ep}</span>
+    </div>
+    <div class="wc-info">
+      <div class="wc-title">${m.title}</div>
+      <div class="wc-meta">
+        ${m.rating ? `<span>⭐ ${m.rating}</span><span>•</span>` : ''}
+        <span>${m.genre}</span>
+      </div>
+    </div>
+  </div>`;
+    }
+
+    function premiereCard(m) {
+      return `
+  <div class="premiere-card" onclick="toast('🌟 Pre-booking ${m.title}!', 'gold')">
+    <div class="premiere-poster">
+      ${m.emoji}
+      <div class="premiere-glow"></div>
+    </div>
+    <div class="premiere-info">
+      <div class="premiere-date">📅 ${m.date}</div>
+      <div class="premiere-title">${m.title}</div>
+      <div class="mc-genre" style="font-size:0.75rem;margin-top:0.2rem">${m.genre}</div>
+    </div>
+  </div>`;
+    }
+
+    function cinemaCard(c) {
+      return `
+  <div class="cinema-card" onclick="toast('📍 Opening ${c.name}…', 'teal')">
+    <div class="cinema-img">${c.emoji}</div>
+    <div class="cinema-info">
+      <div class="cinema-name">${c.name}</div>
+      <div class="cinema-loc"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> ${c.loc}</div>
+      <div class="cinema-amenities">
+        ${c.amens.map(a => `<span class="amenity">${a}</span>`).join('')}
+      </div>
+      <div class="cinema-footer">
+        <button class="btn-primary" style="font-size:0.75rem;padding:0.4rem 1rem">Book Seats</button>
+        <div class="cinema-rating">⭐ ${c.rating}</div>
+      </div>
+    </div>
+  </div>`;
+    }
+
+    // ─── POPULATE ────────────────────────────────────────────────────────────
+    document.getElementById('movies-row').innerHTML = MOVIES.map(movieCard).join('');
+    document.getElementById('anime-row').innerHTML = ANIME.map(a => wideCard({ ...a, type: 'anime' })).join('');
+    document.getElementById('series-row').innerHTML = SERIES.map(s => wideCard(s)).join('');
+    document.getElementById('shows-row').innerHTML = SHOWS.map(s => wideCard(s)).join('');
+    document.getElementById('upcoming-row').innerHTML = UPCOMING.map(premiereCard).join('');
+    document.getElementById('sports-row').innerHTML = SPORTS.map(s => wideCard(s)).join('');
+    document.getElementById('cinema-row').innerHTML = CINEMAS.map(cinemaCard).join('');
+
+    // ─── PAGE SWITCHER ────────────────────────────────────────────────────────
+    function showPage(name) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('page-' + name).classList.add('active');
+      const footer = document.getElementById('main-footer');
+      footer.style.display = (name === 'login' || name === 'register') ? 'none' : 'block';
+      window.scrollTo(0, 0);
+    }
+
+    function markActive(el) {
+      document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+      el.classList.add('active');
+    }
+
+    // ─── AUTH HANDLERS ────────────────────────────────────────────────────────
+    function handleLogin(e) {
+      e.preventDefault();
+      toast('✅ Login successful! Welcome back!', 'teal');
+      setTimeout(() => showPage('home'), 1500);
+    }
+    function handleRegister(e) {
+      e.preventDefault();
+      toast('🎉 Account created! Welcome to GooBooking!', 'gold');
+      setTimeout(() => showPage('home'), 1500);
+    }
+
+    // ─── TOGGLE PASSWORD ──────────────────────────────────────────────────────
+    function togglePass(id, btn) {
+      const inp = document.getElementById(id);
+      const showing = inp.type === 'text';
+      inp.type = showing ? 'password' : 'text';
+      btn.innerHTML = showing ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+    }
+
+    // ─── PASSWORD STRENGTH ────────────────────────────────────────────────────
+    function checkStrength(inp) {
+      const val = inp.value;
+      const fill = document.getElementById('strength-fill');
+      let strength = 0;
+      if (val.length >= 8) strength += 25;
+      if (/[A-Z]/.test(val)) strength += 25;
+      if (/[0-9]/.test(val)) strength += 25;
+      if (/[^A-Za-z0-9]/.test(val)) strength += 25;
+      fill.style.width = strength + '%';
+      fill.style.background = strength <= 25 ? 'var(--primary)' : strength <= 50 ? 'var(--gold)' : strength <= 75 ? '#3B82F6' : 'var(--teal)';
+    }
+
+    // ─── TOAST ────────────────────────────────────────────────────────────────
+    let toastTimer;
+    function toast(msg, color = 'teal') {
+      const t = document.getElementById('toast');
+      const m = document.getElementById('toast-msg');
+      const colorMap = { red: 'rgba(232,0,29,0.3)', teal: 'rgba(6,214,160,0.3)', gold: 'rgba(255,209,102,0.3)', purple: 'rgba(139,92,246,0.3)', pink: 'rgba(244,114,182,0.3)', blue: 'rgba(59,130,246,0.3)', orange: 'rgba(249,115,22,0.3)' };
+      m.textContent = msg;
+      t.style.borderColor = colorMap[color] || colorMap.teal;
+      t.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    // ─── NAVBAR SCROLL ────────────────────────────────────────────────────────
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('navbar');
+      nav.style.background = window.scrollY > 20 ? 'rgba(8,8,16,0.97)' : 'rgba(8,8,16,0.85)';
+    });
+
+    // ─── PARTICLES ────────────────────────────────────────────────────────────
+    function createParticles() {
+      const container = document.getElementById('particles');
+      const colors = ['rgba(232,0,29,0.3)', 'rgba(139,92,246,0.3)', 'rgba(6,214,160,0.25)', 'rgba(255,209,102,0.25)'];
+      for (let i = 0; i < 15; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.style.cssText = `
+      left:${Math.random() * 100}%;
+      width:${2 + Math.random() * 3}px;
+      height:${2 + Math.random() * 3}px;
+      background:${colors[Math.floor(Math.random() * colors.length)]};
+      animation-duration:${8 + Math.random() * 12}s;
+      animation-delay:${Math.random() * 8}s;
+      z-index:0;
+    `;
+        container.appendChild(p);
+      }
+    }
+    createParticles();
+
+    // ─── CATEGORY TABS ────────────────────────────────────────────────────────
+    document.querySelectorAll('.cat-tabs').forEach(row => {
+      row.querySelectorAll('.ct').forEach(btn => {
+        btn.addEventListener('click', function () {
+          row.querySelectorAll('.ct').forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+        });
+      });
+    });
+
+    // ─── HERO CARD HOVER ─────────────────────────────────────────────────────
+    let heroIdx = 0;
+    const heroData = [
+      { title: 'Stree 2', meta: '⭐ 8.9 • UA • 2h 17m', emoji: '👻' },
+      { title: 'Demon Slayer: S4', meta: '⭐ 9.1 • Anime • 24 Eps', emoji: '🗡️' },
+      { title: 'Mirzapur S3', meta: '⭐ 8.5 • Series • 10 Eps', emoji: '🔫' },
+    ];
+    setInterval(() => {
+      heroIdx = (heroIdx + 1) % heroData.length;
+      const card = document.querySelector('.featured-card');
+      if (card) {
+        const d = heroData[heroIdx];
+        card.querySelector('.featured-card-img').innerHTML = d.emoji + `<div style="position:absolute;inset:0;background:linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.98))"></div>`;
+        card.querySelector('.featured-card-title').textContent = d.title;
+        card.querySelector('.featured-card-meta').innerHTML = d.meta;
+      }
+    }, 3000);
+
+  </script>
+</body>
+
+</html>
